@@ -1,0 +1,3 @@
+# Esempi di file/cartelle da escludere
+node_modules
+.git
