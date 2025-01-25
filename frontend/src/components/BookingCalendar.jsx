@@ -44,7 +44,7 @@ export default function BookingCalendar({ maxGuests = 10, message = "Ciao" }) {
         days.push(
           <div
             key={day}
-            className={`w-10 h-10 flex items-center justify-center border rounded-lg cursor-pointer hover:bg-gray-200 ${
+            className={`w-10 h-10 flex items-center justify-center border rounded-lg cursor-pointer hover:bg-gray-200 border-3 border-double  ${
               selectedDate === day ? 'bg-green-400 text-white' : ''
             }`}
             onClick={() => setSelectedDate(day)}
@@ -64,13 +64,13 @@ export default function BookingCalendar({ maxGuests = 10, message = "Ciao" }) {
     
   
     return (
-      <div className="w-full h-full fixed top-0 left-0 min-h-screen bg-cover bg-center flex items-center justify-center" style={{ backgroundImage: `url(${sfondo})` }}>
-        <div className="p-6 bg-white shadow-2xl rounded-2xl w-full max-w-md mx-auto">
+      <div className="w-full max-h-screen fixed top-0 left-0 min-h-screen bg-cover bg-center flex items-center justify-center" style={{ backgroundImage: `url(${sfondo})` }}>
+        <div className="p-6 sm:p-4 bg-white shadow-2xl rounded-2xl w-full mx-auto max-w-md sm:max-w-sm max-h-screen overflow-y-auto">
+
           <div className="text-center mb-1">
             <img src="/logo.png" alt="Logo" className="mx-auto w-32 mb-0" />
             <h2 className="text-2xl font-bold">Prenota un Tavolo</h2>
           </div>
-          <button className="rounded-full ">Save Changes</button>
           <div className="mb-2">
             <div className="flex justify-between items-center mb-2">
               <button onClick={handlePrevMonth} className=" text-2xl">&#9664;</button>
@@ -79,7 +79,7 @@ export default function BookingCalendar({ maxGuests = 10, message = "Ciao" }) {
               </h3>
               <button onClick={handleNextMonth} className="text-2xl">&#9654;</button>
             </div>
-            <div className="border border-gray-300 p-2 rounded-lg">
+            <div className="border-4 border-double border-gray-300 p-2 rounded-lg">
               <div className="grid grid-cols-7 gap-2 text-center">
                 {renderDays()}
               </div>
