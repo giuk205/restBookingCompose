@@ -25,10 +25,10 @@ function App() {
 
   return (
     <>
-      <Navbar activeForm={activeForm} setActiveForm={setActiveForm} idUser={0}  userPrivileges={UserType.ADMIN} />
+      <Navbar activeForm={activeForm} setActiveForm={setActiveForm} idUser={idUser}  userPrivileges={userPrivileges} />
 
       {activeForm === PageForm.LOGIN && (
-        <Login idUser={idUser} setIdUser={setIdUser} userPrivileges={userPrivileges} setUserPrivileges={setUserPrivileges}/>
+        <Login activeForm={activeForm} setActiveForm={setActiveForm} idUser={idUser} setIdUser={setIdUser} userPrivileges={userPrivileges} setUserPrivileges={setUserPrivileges}/>
       )}
       {/*
       {activeForm === PageForm.REGISTER && (

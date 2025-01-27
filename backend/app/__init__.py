@@ -21,13 +21,13 @@ Session(app)
 #CORS(app, supports_credentials=True, origins=["*"])
 #CORS(app, origins=["http://localhost:3000", "http://localhost:5000", "http://localhost:5173"])
 CORS(app, supports_credentials=True, origins="*")
-
+'''
 @app.route('/data', methods=['GET', 'OPTIONS'])
 def get_data():
     if request.method == 'OPTIONS':
         return '', 204  # Risponde con successo alla preflight request
     return {"message": "CORS abilitato"}
-
+'''
 # Inizializza il database
 mydb_instance = MyDB(app)
 

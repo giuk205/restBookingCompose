@@ -9,7 +9,7 @@ class MyDB:
             self.init_app(app)
 
     def init_app(self, app):
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:centrostella@host.docker.internal/tablebook'
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@host.docker.internal/tablebook'
         app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
         miodb.init_app(app)
 
