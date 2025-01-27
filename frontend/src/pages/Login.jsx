@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function LoginModal() {
+function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
@@ -15,7 +15,9 @@ function LoginModal() {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
+    <div className="bg-[url('/sfondo.jpg')] bg-cover bg-center bg-fixed h-screen w-screen">        
+    <div className="mt-20 p-6 sm:p-4 bg-white shadow-2xl rounded-2xl w-full mx-auto max-w-md sm:max-w-sm max-h-screen overflow-y-auto">
+
       <div className="bg-white rounded-lg shadow-lg p-8">
         <h2 className="text-2xl font-bold mb-4">Accedi</h2>
         <div className="mb-4">
@@ -83,8 +85,9 @@ function LoginModal() {
         </div>
         <p className="text-red-500 text-xs italic">{message}</p>
       </div>
-    </div>
-  );
+      </div>
+      </div>
+    );
 }
 
-export default LoginModal;
+export default Login;

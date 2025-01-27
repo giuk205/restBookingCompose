@@ -1,9 +1,68 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import Navbar from "./components/Navbar";
+import Login from './pages/Login'
+//import Register from './pages/Register'
+import BookingCalendar from './pages/BookingCalendar'
+/*
+import User from './pages/User'
+import Admin from './pages/Admin'
+import Staff from './pages/Staff'
+*/
+import Home from './pages/Home'
 import './App.css'
+import {  PageForm, UserType } from  './globals';
+
+
+
+function App() {
+  // Form attivo
+  const [activeForm, setActiveForm] = useState(PageForm.HOME); // defined in globals.PageForm
+
+  // Quando loggato idUser dell'utente
+  const [idUser, setIdUser] = useState(null);
+  // Quando loggato tipo di utente (0 = admin, 10 = manager, 20 = staff, 30 = user)
+  const [userPrivileges, setUserPrivileges] = useState(UserType.USER); // defined in globals.UserType);
+
+  return (
+    <>
+      <Navbar activeForm={activeForm} setActiveForm={setActiveForm} idUser={0}  userPrivileges={UserType.ADMIN} />
+
+      {activeForm === PageForm.LOGIN && (
+        <Login idUser={idUser} setIdUser={setIdUser} userPrivileges={userPrivileges} setUserPrivileges={setUserPrivileges}/>
+      )}
+      {/*
+      {activeForm === PageForm.REGISTER && (
+        <Register/>
+      )}
+      {activeForm === PageForm.USER && (
+        <User/>
+      )}
+      {activeForm === PageForm.ADMIN && (
+        <Admin/>
+      )}
+      */}
+      {activeForm === PageForm.BOOKING && (
+        <BookingCalendar maxGuests ={10} message = {"Questo è un messaggio"}/>
+      )}
+      {/*
+      {activeForm === PageForm.STAFF && (
+        <Staff/>
+      )}
+      */}
+      {activeForm === PageForm.HOME && (
+        <Home/>
+      )}
+    </>
+  )
+}
+
+export default App
 
 /*
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+
+
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import User from "./pages/LivePortal";
@@ -44,18 +103,3 @@ import Navbar from "./components/Navbar";
       </p>
 
       */
-import BookingCalendar from './components/BookingCalendar'
-
-
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-
-      <BookingCalendar maxGuests ={10} message = {"Questo è un messaggio"}/>
-    </>
-  )
-}
-
-export default App
