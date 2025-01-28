@@ -3,7 +3,7 @@ import os
 from flask import Flask, request
 from flask_cors import CORS
 from flask_session import Session
-from mydb import MyDB, miodb
+from mydb import MyDB, miodb as db
 from sqlalchemy.orm import sessionmaker
 
 app = Flask(__name__)
@@ -30,6 +30,9 @@ def get_data():
 '''
 # Inizializza il database
 mydb_instance = MyDB(app)
+# Verifica se creare db (nuova installazione)
+if __name__ == "__main__":
+  mydb_instance.initialize_database()
 
 def get_session():
     with app.app_context():

@@ -4,3 +4,4 @@ Flask-SQLAlchemy
 pymysql
 flask-session
 werkzeug
+mysql-connector-python
