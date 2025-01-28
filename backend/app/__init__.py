@@ -30,9 +30,9 @@ def get_data():
 '''
 # Inizializza il database
 mydb_instance = MyDB(app)
-# Verifica se creare db (nuova installazione)
+# Setup del database: attende MariaDB e verifica esistenza database
 if __name__ == "__main__":
-  mydb_instance.initialize_database()
+    mydb_instance.setup_database()
 
 def get_session():
     with app.app_context():
