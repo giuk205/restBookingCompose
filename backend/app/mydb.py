@@ -10,33 +10,39 @@ class MyDB:
       self.init_app(app)
 
   def init_app(self, app):
+    # Inizializza il database e registra teardown_appcontext
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@mariadb:3306/tablebook'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     miodb.init_app(app)
 
+    @app.teardown_appcontext
+    def shutdown_session(exception=None):
+        """Chiude la sessione dopo ogni richiesta"""
+        miodb.session.remove()
+
   def setup_database(self):
-    # Aspetta che il database MariaDB sia pronto, e verifica o crea il database 'tablebook'.
+    # Aspetta che MariaDB sia pronto e verifica la presenza del database
     import time
     mydb = None
     while True:
-        try:
-            print("⏳ Tentativo di connessione a MariaDB...")
-            mydb = mysql.connector.connect(     # Connessione diretta a MySQL
-                host="mariadb",
-                user="user",
-                password="password"
-            )
-            print("✅ Connessione a MariaDB riuscita.")
-            break
-        except mysql.connector.Error as err:
-            print(f"⚠️ MariaDB non è pronto: {err}")
-            time.sleep(3)
+      try:
+        print("⏳ Tentativo di connessione a MariaDB...")
+        mydb = mysql.connector.connect(
+          host="mariadb",
+          user="user",
+          password="password"
+        )
+        print("✅ Connessione a MariaDB riuscita.")
+        break
+      except mysql.connector.Error as err:
+        print(f"⚠️ MariaDB non è pronto: {err}")
+        time.sleep(3)
 
 
-    # Verifica se il database 'tablebook' esiste
+    # Verifica la presenza del database
     try:
       mycursor = mydb.cursor()
-      mycursor.execute("SHOW DATABASES;")      # Controlla se il database esiste
+      mycursor.execute("SHOW DATABASES;")
       databases = [db[0] for db in mycursor.fetchall()]
       if "tablebook" not in databases:
         print("⚠️ Database 'tablebook' non trovato!")
@@ -60,5 +66,6 @@ class MyDB:
         mydb.close()
 
 @staticmethod
-def get_db_connection():
+def get_db_session():
+    # Ritorna una nuova sessione gestita correttamente
     return miodb.session
