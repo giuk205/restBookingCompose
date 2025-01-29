@@ -7,6 +7,7 @@ export default function Login({ activeForm, setActiveForm, idUser, setIdUser, us
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
   const [message, setMessage] = useState('Compila i campi');
+  const [isForgotPasswordAttempted, setIsForgotPasswordAttempted] = useState(false);
 
   if (idUser !== null) {
     console.error('Login() Valore idUser non nullo forza PageForm.USER idUser:',idUser);
@@ -30,7 +31,7 @@ export default function Login({ activeForm, setActiveForm, idUser, setIdUser, us
 
     // Logica per inviare i dati al server
     try {
-      console.log('login.loginAcces() Proviamo a comunicare con il python');
+      console.log('login.loginAccess() Proviamo a comunicare con il python');
       const timeoutPromise = new Promise(resolve => setTimeout(resolve, 1000));
 
       const fetchPromise = await fetch(connectionprefix+'/login', {
@@ -84,6 +85,7 @@ export default function Login({ activeForm, setActiveForm, idUser, setIdUser, us
    * e poi esegue la logica per inviare i dati al server e la email.
    */
   const handleForgotPassword = () => {
+    setIsForgotPasswordAttempted(true); // Attiva la validazione visiva
     // alert('Recupero password avviato!');
     if (!username) {
       setMessage('Inserisci l\'email per poter ricevere la password temporanea');
@@ -119,10 +121,13 @@ export default function Login({ activeForm, setActiveForm, idUser, setIdUser, us
           <input
             type="text"
             placeholder="Inserisci il tuo nome o Email"
-            className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+              isForgotPasswordAttempted && !isValidEmail(username) ? "border-pink-500 text-pink-600" : ""
+            }`}
             onChange={(e) => {
               setUsername(e.target.value);
               setMessage('Compila i campi');
+              setIsForgotPasswordAttempted(false); // Reset validazione se l'utente modifica il campo
             }}
           />
         </div>

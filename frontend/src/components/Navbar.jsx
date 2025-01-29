@@ -34,7 +34,7 @@ export default function Navbar({ activeForm, setActiveForm, idUser, userPrivileg
 
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-linear-to-r/srgb from-orange-300  to-amber-200 p-4 shadow-lg flex justify-between items-center">
+    <nav className="fixed top-0 left-0 w-full bg-linear-to-r/srgb from-orange-300/90  to-amber-200/90 p-4 shadow-lg flex justify-between items-center">
         {/* Sezione sinistra */}
 
         <div className=" text-zinc-200  flex">

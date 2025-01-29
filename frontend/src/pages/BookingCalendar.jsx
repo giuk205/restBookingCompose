@@ -68,7 +68,7 @@ export default function BookingCalendar({ maxGuests = 10, message = "Ciao" }) {
     return (
       <div className="h-screen w-screen bg-[url('/sfondo.jpg')] bg-cover bg-center bg-fixed flex items-center justify-center m-0">
       {/* Contenitore principale con margine superiore */}
-      <div className="p-8 bg-white shadow-2xl rounded-2xl w-full max-w-md mt-12">
+      <div className="p-8 bg-white shadow-2xl rounded-2xl w-full max-w-md mt-20">
           {/* Sezione superiore: Logo e Titolo */}
           <div className="text-center mb-6">
             <img src="/logo11.png" alt="Logo" className="mx-auto w-32 mb-2" />

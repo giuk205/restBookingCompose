@@ -10,7 +10,7 @@ def login():
     #print("login endpoint", flush=True)
     data = request.get_json()
     username = data.get('name')
-    password = data.get('password')
+    password = data.get('pwd')
     #print(f'username: {username}, password: {password}', flush=True)
     # Crea una sessione del database 
     db_session = db_session = miodb.session
