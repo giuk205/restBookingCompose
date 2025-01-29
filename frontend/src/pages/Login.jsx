@@ -95,7 +95,7 @@ export default function Login({ activeForm, setActiveForm, idUser, setIdUser, us
       return;
     }
     // Logica per inviare i dati al server
-    setMessage('Procedura recuper password avviata');
+    setMessage('Procedura recupero password avviata');
     console.log('Login().ForgotPassword.Richiedi email per email:', username);
     //TODO
    };
@@ -108,11 +108,10 @@ export default function Login({ activeForm, setActiveForm, idUser, setIdUser, us
 //    <div className="bg-white p-16 rounded-2xl shadow-lg w-full max-w-md">
 
   return (
-    <div className="bg-[url('/sfondo.jpg')] bg-cover bg-center bg-fixed h-screen w-screen">
-    <div className="mt-20 p-6 sm:p-4 bg-white shadow-2xl rounded-2xl w-full mx-auto max-w-md sm:max-w-sm max-h-screen overflow-y-auto">
-      
+    <div className="h-screen w-screen bg-[url('/sfondo.jpg')] bg-cover bg-center bg-fixed flex items-center justify-center">
+    <div className="p-8 sm:p-8 bg-white shadow-2xl rounded-2xl w-full mx-auto max-w-md sm:max-w-sm">
   
-        <h2 className="text-4xl font-bold text-center mb-15 mt-[-10px]">Login</h2>
+    <h2 className="text-4xl font-bold text-center mb-15">Login</h2>
 
         {/* Nome o Email */}
         <div className="mb-4">
@@ -120,8 +119,7 @@ export default function Login({ activeForm, setActiveForm, idUser, setIdUser, us
           <input
             type="text"
             placeholder="Inserisci il tuo nome o Email"
-            className="border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-            style={{ height: '40px', width: '300px' }} 
+            className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
             onChange={(e) => {
               setUsername(e.target.value);
               setMessage('Compila i campi');

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Navbar from "./components/Navbar";
 import Login from './pages/Login'
-//import Register from './pages/Register'
+import Register from './pages/Register'
 import BookingCalendar from './pages/BookingCalendar'
 /*
 import User from './pages/User'
@@ -30,10 +30,10 @@ function App() {
       {activeForm === PageForm.LOGIN && (
         <Login activeForm={activeForm} setActiveForm={setActiveForm} idUser={idUser} setIdUser={setIdUser} userPrivileges={userPrivileges} setUserPrivileges={setUserPrivileges}/>
       )}
-      {/*
       {activeForm === PageForm.REGISTER && (
         <Register/>
       )}
+      {/*
       {activeForm === PageForm.USER && (
         <User/>
       )}
