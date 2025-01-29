@@ -10,46 +10,55 @@ class MyDB:
       self.init_app(app)
 
   def init_app(self, app):
-    #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@host.docker.internal/tablebook'
-    #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@db:3306/tablebook'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://user:password@mariadb:3306/tablebook'
-
-
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@mariadb:3306/tablebook'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     miodb.init_app(app)
 
-  def initialize_database(self):
+  def setup_database(self):
+    # Aspetta che il database MariaDB sia pronto, e verifica o crea il database 'tablebook'.
+    import time
     mydb = None
-    try:
-      # Connessione diretta a MySQL per eseguire lo script
-      mydb = mysql.connector.connect(
-          #host="localhost",
-          #user="root",
-          host="mariadb",
-          user="user",
-          password="password",
-          database="tablebook"
-      )
-      mycursor = mydb.cursor()
+    while True:
+        try:
+            print("⏳ Tentativo di connessione a MariaDB...")
+            mydb = mysql.connector.connect(     # Connessione diretta a MySQL
+                host="mariadb",
+                user="user",
+                password="password"
+            )
+            print("✅ Connessione a MariaDB riuscita.")
+            break
+        except mysql.connector.Error as err:
+            print(f"⚠️ MariaDB non è pronto: {err}")
+            time.sleep(3)
 
-      # Controlla se il database esiste
-      mycursor.execute("SHOW DATABASES;")
+
+    # Verifica se il database 'tablebook' esiste
+    try:
+      mycursor = mydb.cursor()
+      mycursor.execute("SHOW DATABASES;")      # Controlla se il database esiste
       databases = [db[0] for db in mycursor.fetchall()]
       if "tablebook" not in databases:
+        print("⚠️ Database 'tablebook' non trovato!")
+        '''
         print("Database non trovato. Creazione in corso...")
-        with open("default.sql", "r") as f:
+        mycursor.execute("CREATE DATABASE tablebook;")
+        mydb.database = "tablebook"
+        with open("./app/default.sql", "r") as f:
             sql = f.read()
             for statement in sql.split(";"):
                 if statement.strip():
                     mycursor.execute(statement)
         mydb.commit()
+        '''
       else:
-        print("Database presente.")
+        print("✅ Database 'tablebook' presente.")
     except mysql.connector.Error as err:
-      print(f"Error: {err}")
+      print(f"❌ Errore durante la verifica del database: {err}")
     finally:
       if mydb:
         mydb.close()
+
 @staticmethod
 def get_db_connection():
     return miodb.session

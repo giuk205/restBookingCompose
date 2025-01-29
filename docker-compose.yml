@@ -34,6 +34,8 @@ services:
       - "3306:3306"
     volumes:
       - mariadb_data:/var/lib/mysql
+      - ./default.sql:/docker-entrypoint-initdb.d/default.sql  # Mappa il file SQL per la creazione del DB
+
 
 volumes:
   mariadb_data:
