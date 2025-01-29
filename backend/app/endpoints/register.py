@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash
 from datetime import datetime, timedelta, timezone
 import random
-from app import get_session
+from mydb import miodb
 from models.user import User
 
 register_bp = Blueprint('register', __name__)
@@ -19,7 +19,7 @@ def register():
         return jsonify({'errore': 'Email, nome e telefono sono richiesti'}), 400
 
     # Crea una sessione del database
-    db_session = get_session()
+    db_session = db_session = miodb.session
 
     new_user = User(email=email, name=name, phone=phone)
 

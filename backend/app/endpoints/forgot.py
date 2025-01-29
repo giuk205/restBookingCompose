@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash
 import random
-from app import get_session
+from mydb import miodb
 from models.user import User
 
 forgot_bp = Blueprint('forgot', __name__)
@@ -15,7 +15,7 @@ def forgot_password():
         return jsonify({"error": "Email is required"}), 400
 
     # Crea una sessione del database
-    db_session = get_session()
+    db_session = miodb.session
 
     # Verifica se l'email esiste nel database e che authorizedCode sia null
     user = db_session.query(User).filter_by(email=email, authorizedCode=None).first()

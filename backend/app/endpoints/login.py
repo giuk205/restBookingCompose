@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, session
 from werkzeug.security import check_password_hash
-from app import get_session
+from mydb import miodb
 from models.user import User  # Importazione del modello User
 
 login_bp = Blueprint('login', __name__)
@@ -13,7 +13,7 @@ def login():
     password = data.get('password')
     #print(f'username: {username}, password: {password}', flush=True)
     # Crea una sessione del database 
-    db_session = get_session()
+    db_session = db_session = miodb.session
     
     # Trova l'utente per email o nome utente
     user = db_session.query(User).filter((User.email == username) | (User.name == username)).first()
