@@ -1,4 +1,4 @@
-tablebook`user`-- --------------------------------------------------------
+-- --------------------------------------------------------
 -- Host:                         localhost
 -- Versione server:              10.6.20-MariaDB-ubu2004 - mariadb.org binary distribution
 -- S.O. server:                  debian-linux-gnu
