@@ -13,7 +13,7 @@ def login():
     password = data.get('pwd')
     #print(f'username: {username}, password: {password}', flush=True)
     # Crea una sessione del database 
-    db_session = db_session = miodb.session
+    db_session = miodb.session
     
     # Trova l'utente per email o nome utente
     user = db_session.query(User).filter((User.email == username) | (User.name == username)).first()
