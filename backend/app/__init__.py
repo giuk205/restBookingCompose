@@ -46,6 +46,7 @@ from app.endpoints.register import register_bp
 from app.endpoints.login import login_bp
 from app.endpoints.forgot import forgot_bp
 from app.endpoints.logout import logout_bp
+from app.endpoints.user import user_bp
 #from app.endpoints.booked import booked_bp
 
 # Endpoint di test
@@ -56,6 +57,7 @@ app.register_blueprint(register_bp)
 app.register_blueprint(login_bp)
 app.register_blueprint(forgot_bp)
 app.register_blueprint(logout_bp)
+app.register_blueprint(user_bp)
 #app.register_blueprint(booked_bp)
 
 if __name__ == "__main__":
