@@ -52,6 +52,7 @@ export default function Navbar({ activeForm, setActiveForm, idUser, userPrivileg
             &nbsp;&nbsp;
             <button className="hover:text-white hover:border-white hover:bg-green-800 rounded-lg border border-transparent cursor-pointer"
                 onClick={() => {
+                  console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx idUser: ", idUser);
                     console.log( idUser === null ? "setActiveForm LOGIN: PageForm.LOGIN" : "setActiveForm USER:PageForm.USER");
                     setActiveForm(idUser === null ? PageForm.LOGIN : PageForm.USER);                   
                     }

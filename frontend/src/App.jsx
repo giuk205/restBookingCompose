@@ -3,8 +3,8 @@ import Navbar from "./components/Navbar";
 import Login from './pages/Login'
 import Register from './pages/Register'
 import BookingCalendar from './pages/BookingCalendar'
-/*
 import User from './pages/User'
+/*
 import Admin from './pages/Admin'
 import Staff from './pages/Staff'
 */
@@ -33,14 +33,14 @@ function App() {
       {activeForm === PageForm.REGISTER && (
         <Register/>
       )}
-      {/*
+      
       {activeForm === PageForm.USER && (
         <User/>
       )}
-      {activeForm === PageForm.ADMIN && (
+      {/*activeForm === PageForm.ADMIN && (
         <Admin/>
-      )}
-      */}
+      )}*/
+      }
       {activeForm === PageForm.BOOKING && (
         <BookingCalendar maxGuests ={10} message = {"Questo è un messaggio"}/>
       )}
@@ -55,7 +55,6 @@ function App() {
     </>
   )
 }
-
 export default App
 
 /*
@@ -102,4 +101,4 @@ import Navbar from "./components/Navbar";
         Click on the Vite and React logos to learn more
       </p>
 
-      */
+ */

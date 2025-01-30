@@ -53,9 +53,11 @@ export default function Login({ activeForm, setActiveForm, idUser, setIdUser, us
         //const data = await response.json();
         console.log('login.loginAcces() REQUEST DONE, response OK!');
         const jsonData = await response.json();
-        const newUpdate = jsonData.message.trim().split(" ")[0];
-        console.log('login.loginAcces() newUpdate:',newUpdate);
+        if(jsonData.message==='Login successful'){
+          setIdUser(jsonData.idUser);
+          console.log('login.loginAcces() idUser:',jsonData.idUser);
         }
+      }
       else{
         const data = await response.json();
         console.log('login.loginAcces()  Fail: %s/nData: %s',response, data);
