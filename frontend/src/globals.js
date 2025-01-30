@@ -3,10 +3,11 @@ export let connectionprefix = "http://localhost:5000";   //for Lenovo new databa
 
 
 export const UserType = {
-  ADMIN: 0,
-  MANAGER: 10,
-  STAFF: 20,
-  USER: 30,
+  SUPERADMIN: 0,
+  ADMIN: 10,
+  MANAGER: 20,
+  STAFF: 30,
+  USER: 40,
 };
 
 

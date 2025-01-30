@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `table` (
   PRIMARY KEY (`idTable`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
--- Dump dei dati della tabella tablebook.table: ~0 rows (circa)
+-- Dump dei dati della tabella tablebook.table: ~1 rows (circa)
 DELETE FROM `table`;
 /*!40000 ALTER TABLE `table` DISABLE KEYS */;
 INSERT INTO `table` (`idTable`, `tableName`, `seatNumber`) VALUES
@@ -66,20 +66,21 @@ CREATE TABLE IF NOT EXISTS `user` (
   `phone` tinytext NOT NULL COMMENT 'Opzione per autenticazione a due livelli',
   `password` tinytext NOT NULL COMMENT 'password: pbkdf2:sha256:1000000$xMG7L8wZqNOAfSwn$460614d6da0f0df7c8ee0bf879e461b4efd0c4922d31ce534fe10b38aeb08b06',
   `authorizedCode` smallint(6) DEFAULT 0 COMMENT 'Se NULL l''utente è autorizzato',
-  `admin` char(1) NOT NULL DEFAULT 'N' COMMENT 'L''amministratore ha A, lo staff S',
-  `adminNote` varchar(50) DEFAULT NULL COMMENT 'Note dell''amministratore sul cliente',
-  `staff` char(1) NOT NULL DEFAULT 'N' COMMENT 'CapoSala e camerieri',
+  `privilege` tinyint(4) NOT NULL DEFAULT 40 COMMENT 'SUPERADMIN=0, ADMIN=10, MANAGER=20, STAFF=30, USER=40',
+  `adminNote` text DEFAULT NULL COMMENT 'Note dell''amministratore sul cliente',
   `updateDate` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `deleted` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`idUser`) USING BTREE,
   UNIQUE KEY `email` (`email`) USING HASH,
   UNIQUE KEY `name` (`name`) USING HASH
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='Tabella con i dati utente';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci COMMENT='Tabella con i dati utente';
 
 -- Dump dei dati della tabella tablebook.user: ~2 rows (circa)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`idUser`, `email`, `name`, `phone`, `password`, `authorizedCode`, `admin`, `adminNote`, `staff`, `updateDate`) VALUES
-	(1, 'admin', 'admin', '0000000', 'pbkdf2:sha256:1000000$xMG7L8wZqNOAfSwn$460614d6da0f0df7c8ee0bf879e461b4efd0c4922d31ce534fe10b38aeb08b06', NULL, 'A', NULL, 'N', '2025-01-28 12:55:11');
+INSERT INTO `user` (`idUser`, `email`, `name`, `phone`, `password`, `authorizedCode`, `privilege`, `adminNote`, `updateDate`, `deleted`) VALUES
+	(1, 'owner', 'owner', '0000000', 'pbkdf2:sha256:1000000$xMG7L8wZqNOAfSwn$460614d6da0f0df7c8ee0bf879e461b4efd0c4922d31ce534fe10b38aeb08b06', NULL, 0, NULL, '2025-01-30 23:22:24', b'0'),
+	(2, 'admin', 'admin', '0000000', 'pbkdf2:sha256:1000000$xMG7L8wZqNOAfSwn$460614d6da0f0df7c8ee0bf879e461b4efd0c4922d31ce534fe10b38aeb08b06', NULL, 10, NULL, '2025-01-30 23:22:40', b'0');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

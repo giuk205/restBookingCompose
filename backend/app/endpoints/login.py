@@ -22,8 +22,7 @@ def login():
         # Salva le informazioni di sessione
         session['idUser'] = user.idUser
         session['name'] = user.name
-        session['admin'] = user.admin
-        session['staff'] = user.staff
+        session['privilege'] = user.privilege
         
         return jsonify({"message": "Login successful", "idUser": user.idUser}), 200
     else:

@@ -10,10 +10,10 @@ class User(db.Model):
     phone = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(255), nullable=False)
     authorizedCode = db.Column(db.SmallInteger, default=0)
-    admin = db.Column(db.String(1), nullable=False, default='N')
-    adminNote = db.Column(db.String(255))
-    staff = db.Column(db.String(1), nullable=False, default='N')
+    privilege = db.Column(db.SmallInteger, nullable=False, default=40)  # 0=SuperAdmin, 10=Admin, 20=Manager, 30=Staff, 40=User
+    adminNote = db.Column(db.Text)
     updateDate = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
+    deleted = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return f'<User {self.name} ({self.email})>'

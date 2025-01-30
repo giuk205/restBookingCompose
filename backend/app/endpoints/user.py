@@ -2,6 +2,14 @@ from flask import Blueprint, request, jsonify, session
 from models.user import User
 from mydb import miodb as db
 from werkzeug.security import check_password_hash, generate_password_hash
+from enum import Enum
+
+class UserType(Enum):
+    SUPERADMIN = 0
+    ADMIN = 10
+    MANAGER = 20
+    STAFF = 30
+    USER = 40
 
 # Creazione del Blueprint per l'endpoint utente
 user_bp = Blueprint('user', __name__)
@@ -26,9 +34,8 @@ def get_user():
             'email': user.email,
             'phone': user.phone,
             'authorizedCode': user.authorizedCode,
-            'admin': user.admin,
+            'privilege': user.privilege,
             'adminNote': user.adminNote,
-            'staff': user.staff,
             'updateDate': user.updateDate
         })
     except Exception as e:
@@ -43,17 +50,29 @@ def update_user():
         if not id_user:
             return jsonify({"error": "Utente non autenticato"}), 401
         
-        # Cerca l'utente nel database
-        user = User.query.get(id_user)
-        if not user:
+        # Cerca l'utente che sta facendo la richiesta nel database
+        requesting_user = User.query.get(id_user)
+        if not requesting_user:
             return jsonify({"error": "Utente non trovato"}), 404
         
-        # Controlla se il nuovo nome o email sono già in uso da altri utenti
-        new_name = data.get('name', user.name)
-        new_email = data.get('email', user.email)
+        # Cerca l'utente da modificare nel database
+        user_id_to_update = data.get('idUser', id_user)
+        user_to_update = User.query.get(user_id_to_update)
+        if not user_to_update:
+            return jsonify({"error": "Utente da modificare non trovato"}), 404
         
-        existing_user_name = User.query.filter(User.name == new_name, User.idUser != id_user).first()
-        existing_user_email = User.query.filter(User.email == new_email, User.idUser != id_user).first()
+        # Controlla i privilegi dell'utente
+        if requesting_user.privilege  == UserType.MANAGER.value and user_to_update.privilege  > UserType.USER.value:
+            return jsonify({"error": "Privilegi insufficienti per modificare l'utente"}), 403
+        if requesting_user.privilege  == UserType.ADMIN.value and user_to_update.privilege  <= UserType.ADMIN.value and user_to_update.privilege  > UserType.SUPERADMIN.value:
+            return jsonify({"error": "Privilegi insufficienti per modificare l'utente"}), 403
+        
+        # Controlla se il nuovo nome o email sono già in uso da altri utenti
+        new_name = data.get('name', user_to_update.name)
+        new_email = data.get('email', user_to_update.email)
+        
+        existing_user_name = User.query.filter(User.name == new_name, User.idUser != user_id_to_update).first()
+        existing_user_email = User.query.filter(User.email == new_email, User.idUser != user_id_to_update).first()
         
         if existing_user_name:
             return jsonify({"error": "Nome utente già in uso"}), 400
@@ -61,20 +80,9 @@ def update_user():
             return jsonify({"error": "Email già in uso"}), 400
         
         # Aggiornamento dei dati utente con valori nuovi o mantenendo quelli esistenti
-        user.name = new_name
-        user.email = new_email
-        user.phone = data.get('phone', user.phone)
-        user.adminNote = data.get('adminNote', user.adminNote)
-        
-        # Controlla se è richiesta la modifica della password
-        old_password = data.get('oldPassword')
-        new_password = data.get('newPassword')
-        if old_password and new_password:
-            # Verifica se la vecchia password è corretta
-            if not check_password_hash(user.password, old_password):
-                return jsonify({"error": "Vecchia password errata"}), 400
-            # Genera un hash per la nuova password
-            user.password = generate_password_hash(new_password)
+        user_to_update.name = new_name
+        user_to_update.email = new_email
+        user_to_update.phone = data.get('phone', user_to_update.phone)
         
         # Salva le modifiche nel database
         db.session.commit()
@@ -82,3 +90,41 @@ def update_user():
     except Exception as e:
         db.session.rollback()  # Annulla le modifiche in caso di errore
         return jsonify({"error": str(e)}), 500
+
+@user_bp.route('/user', methods=['DELETE'])
+def delete_user():
+    try:
+        id_user = session.get('idUser')
+        if not id_user:
+            return jsonify({"error": "Utente non autenticato"}), 401
+        
+        user = User.query.get(id_user)
+        if not user:
+            return jsonify({"error": "Utente non trovato"}), 404
+        
+        # Controlla i privilegi dell'utente
+        if id_user != user:
+            if id_user.privilege  > UserType.ADMIN.value or (id_user.privilege  == UserType.ADMIN.value and user.privilege  == UserType.ADMIN.value):
+                return jsonify({"error": "Privilegi insufficienti per cancellare l'utente"}), 403
+        
+        # Funzione placeholder per eliminare ordini associati all'utente
+        delete_user_orders(id_user)
+        
+        # Modifica nome ed email per evitare problemi di unicità
+        user.name = f'#{user.name}'
+        user.email = f'#{user.email}'
+        if id_user != user:
+            user.adminNote += f'Utente cancellato da: {id_user}\n'
+        # Imposta il flag deleted a True invece di eliminare fisicamente l'utente
+        user.deleted = True
+        
+        db.session.commit()
+        
+        return jsonify({"message": "Utente cancellato con successo"})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
+def delete_user_orders(id_user):
+    # Placeholder: qui si dovrebbe implementare la logica per eliminare gli ordini associati all'utente
+    pass
