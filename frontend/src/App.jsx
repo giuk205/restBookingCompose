@@ -3,8 +3,8 @@ import Navbar from "./components/Navbar";
 import Login from './pages/Login'
 import Register from './pages/Register'
 import BookingCalendar from './pages/BookingCalendar'
-/*
 import User from './pages/User'
+/*
 import Admin from './pages/Admin'
 import Staff from './pages/Staff'
 */
@@ -17,6 +17,7 @@ import {  PageForm, UserType } from  './globals';
 function App() {
   // Form attivo
   const [activeForm, setActiveForm] = useState(PageForm.HOME); // defined in globals.PageForm
+  const [prevForm, setPrevForm] = useState(PageForm.HOME);     // defined in globals.PageForm
 
   // Quando loggato idUser dell'utente
   const [idUser, setIdUser] = useState(null);
@@ -25,22 +26,22 @@ function App() {
 
   return (
     <>
-      <Navbar activeForm={activeForm} setActiveForm={setActiveForm} idUser={idUser}  userPrivileges={userPrivileges} />
+      <Navbar activeForm={activeForm} setActiveForm={setActiveForm} idUser={idUser}  userPrivileges={userPrivileges} prevForm={prevForm} setPrevForm={setPrevForm}/>
 
       {activeForm === PageForm.LOGIN && (
-        <Login activeForm={activeForm} setActiveForm={setActiveForm} idUser={idUser} setIdUser={setIdUser} userPrivileges={userPrivileges} setUserPrivileges={setUserPrivileges}/>
+        <Login activeForm={activeForm} setActiveForm={setActiveForm} idUser={idUser} setIdUser={setIdUser} userPrivileges={userPrivileges} setUserPrivileges={setUserPrivileges} prevForm={prevForm}/>
       )}
       {activeForm === PageForm.REGISTER && (
         <Register/>
       )}
-      {/*
+      
       {activeForm === PageForm.USER && (
         <User/>
       )}
-      {activeForm === PageForm.ADMIN && (
+      {/*activeForm === PageForm.ADMIN && (
         <Admin/>
-      )}
-      */}
+      )}*/
+      }
       {activeForm === PageForm.BOOKING && (
         <BookingCalendar maxGuests ={10} message = {"Questo è un messaggio"}/>
       )}
@@ -55,7 +56,6 @@ function App() {
     </>
   )
 }
-
 export default App
 
 /*
@@ -102,4 +102,4 @@ import Navbar from "./components/Navbar";
         Click on the Vite and React logos to learn more
       </p>
 
-      */
+ */

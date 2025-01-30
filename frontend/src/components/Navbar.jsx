@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { UserType, PageForm } from  '../globals';
 import { useState, useRef, useEffect } from 'react';
 
-export default function Navbar({ activeForm, setActiveForm, idUser, userPrivileges}) {
+export default function Navbar({ activeForm, setActiveForm, idUser, userPrivileges, prevForm, setPrevForm}) {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null); // Ref per il menu laterale
@@ -79,8 +79,14 @@ export default function Navbar({ activeForm, setActiveForm, idUser, userPrivileg
               <button className="hover:text-white hover:border-white hover:bg-green-800 rounded-lg border border-transparent cursor-pointer"
                   onClick={() => {
                       console.log( idUser === null ? "setActiveForm LOGIN: PageForm.LOGIN" : "setActiveForm USER:PageForm.USER");
-                      setActiveForm(idUser === null ? PageForm.LOGIN : PageForm.USER);                   
+                      if (activeForm !== PageForm.LOGIN && activeForm !== PageForm.USER) {
+                        setPrevForm(activeForm);
+                        setActiveForm(idUser === null ? PageForm.LOGIN : PageForm.USER);                   
                       }
+                      else{
+                        setActiveForm(prevForm);
+                      }
+                    }
                   }
               >
                   {idUser!==null ? <IconUserSetting /> : <IconUser />}
@@ -101,9 +107,9 @@ export default function Navbar({ activeForm, setActiveForm, idUser, userPrivileg
       {isMenuOpen && (
         <div className="fixed top-20 left-0   bg-green-200 z-10 backdrop-blur-sm" style={{ backgroundColor: 'rgba(0, 128, 0, 0.7)' }} ref={menuRef}> 
           <ul className="p-4 space-y-4 "> 
-            <li><a href="#menu" onClick={toggleMenu}>Menu</a></li>
-            <li><a href="#chi-siamo" onClick={toggleMenu}>Chi Siamo</a></li>
-            <li><a href="#contatti" onClick={toggleMenu}>Contatti</a></li>
+            <li><a href="#menu" onClick={() => { setActiveForm(PageForm.HOME); toggleMenu(); }}>Menu</a></li>
+            <li><a href="#chi-siamo" onClick={() => { setActiveForm(PageForm.HOME); toggleMenu(); }}>Chi siamo</a></li>
+            <li><a href="#contatti" onClick={() => { setActiveForm(PageForm.HOME); toggleMenu(); }}>Contatti</a></li>
           </ul>
         </div>
       )}

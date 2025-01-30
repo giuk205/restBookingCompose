@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { UserType, connectionprefix, PageForm } from  '../globals';
 
-export default function Login({ activeForm, setActiveForm, idUser, setIdUser, userPrivileges, setUserPrivileges }) {
+export default function Login({ activeForm, setActiveForm, idUser, setIdUser, userPrivileges, setUserPrivileges, prevForm }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [code, setCode] = useState('');
@@ -49,13 +49,14 @@ export default function Login({ activeForm, setActiveForm, idUser, setIdUser, us
       const [response] = await Promise.all([fetchPromise, timeoutPromise]);
 
       if (response.ok) {
-        //console.log('board.handleButtonPower() OK');
-        //const data = await response.json();
         console.log('login.loginAcces() REQUEST DONE, response OK!');
         const jsonData = await response.json();
-        const newUpdate = jsonData.message.trim().split(" ")[0];
-        console.log('login.loginAcces() newUpdate:',newUpdate);
+        if(jsonData.message==='Login successful'){
+          setIdUser(jsonData.idUser);
+          console.log('login.loginAcces() idUser:',jsonData.idUser);
+          setActiveForm(prevForm);
         }
+      }
       else{
         const data = await response.json();
         console.log('login.loginAcces()  Fail: %s/nData: %s',response, data);
@@ -64,9 +65,9 @@ export default function Login({ activeForm, setActiveForm, idUser, setIdUser, us
       console.error('login.loginAcces()  Fetch error:', error);
     }
     finally{
-      console.log('login.loginAcces() Finally');
+      //console.log('login.loginAcces() Finally');
     }
-    console.log('login.loginAcces() END');
+    //console.log('login.loginAcces() END');
   };
 
   /**
