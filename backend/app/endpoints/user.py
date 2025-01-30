@@ -48,8 +48,21 @@ def update_user():
         if not user:
             return jsonify({"error": "Utente non trovato"}), 404
         
+        # Controlla se il nuovo nome o email sono già in uso da altri utenti
+        new_name = data.get('name', user.name)
+        new_email = data.get('email', user.email)
+        
+        existing_user_name = User.query.filter(User.name == new_name, User.idUser != id_user).first()
+        existing_user_email = User.query.filter(User.email == new_email, User.idUser != id_user).first()
+        
+        if existing_user_name:
+            return jsonify({"error": "Nome utente già in uso"}), 400
+        if existing_user_email:
+            return jsonify({"error": "Email già in uso"}), 400
+        
         # Aggiornamento dei dati utente con valori nuovi o mantenendo quelli esistenti
-        user.name = data.get('name', user.name)
+        user.name = new_name
+        user.email = new_email
         user.phone = data.get('phone', user.phone)
         user.adminNote = data.get('adminNote', user.adminNote)
         
