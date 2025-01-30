@@ -1,7 +1,32 @@
 import PropTypes from 'prop-types';
 import { UserType, PageForm } from  '../globals';
+import { useState, useRef, useEffect } from 'react';
 
 export default function Navbar({ activeForm, setActiveForm, idUser, userPrivileges}) {
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null); // Ref per il menu laterale
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false); // Chiudi il menu se clicchi fuori
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside); // Uso mousedown per una migliore reattività
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside); // Importante: rimuove event listener quando il componente si smonta o il menu si chiude
+    };
+  }, [isMenuOpen]);
+
 
   const IconMenuList = () => {
     return (
@@ -34,44 +59,55 @@ export default function Navbar({ activeForm, setActiveForm, idUser, userPrivileg
 
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-linear-to-r/srgb from-orange-300/90  to-amber-200/90 p-4 shadow-lg flex justify-between items-center">
-        {/* Sezione sinistra */}
+    <>
+      <nav className="fixed top-0 left-0 w-full bg-linear-to-r/srgb from-orange-300/90  to-amber-200/90 p-4 shadow-lg flex justify-between items-center">
+          {/* Sezione sinistra */}
 
-        <div className=" text-zinc-200  flex">
-            <button className="hover:text-white hover:border-white hover:bg-green-800 rounded-lg border border-transparent cursor-pointer">
-                <IconMenuList />
-            </button>
-            {userPrivileges < UserType.USER && (
-                <>
-                &nbsp;&nbsp;
-                <button className="hover:text-white hover:border-white hover:bg-green-800 rounded-lg border border-transparent cursor-pointer">
-                    <IconSetting />
-                </button>
-                </>
-            )}
-            &nbsp;&nbsp;
-            <button className="hover:text-white hover:border-white hover:bg-green-800 rounded-lg border border-transparent cursor-pointer"
-                onClick={() => {
-                    console.log( idUser === null ? "setActiveForm LOGIN: PageForm.LOGIN" : "setActiveForm USER:PageForm.USER");
-                    setActiveForm(idUser === null ? PageForm.LOGIN : PageForm.USER);                   
-                    }
-                }
-            >
-                {idUser!==null ? <IconUserSetting /> : <IconUser />}
-            </button>
+          <div className=" text-zinc-200  flex">
+              <button onClick={toggleMenu} onMouseDown={(e) => e.stopPropagation()}  className="hover:text-white hover:border-white hover:bg-green-800 rounded-lg border border-transparent cursor-pointer">
+                  <IconMenuList />
+              </button>
+              {userPrivileges < UserType.USER && (
+                  <>
+                  &nbsp;&nbsp;
+                  <button className="hover:text-white hover:border-white hover:bg-green-800 rounded-lg border border-transparent cursor-pointer">
+                      <IconSetting />
+                  </button>
+                  </>
+              )}
+              &nbsp;&nbsp;
+              <button className="hover:text-white hover:border-white hover:bg-green-800 rounded-lg border border-transparent cursor-pointer"
+                  onClick={() => {
+                      console.log( idUser === null ? "setActiveForm LOGIN: PageForm.LOGIN" : "setActiveForm USER:PageForm.USER");
+                      setActiveForm(idUser === null ? PageForm.LOGIN : PageForm.USER);                   
+                      }
+                  }
+              >
+                  {idUser!==null ? <IconUserSetting /> : <IconUser />}
+              </button>
+          </div>
+
+        {/* Center Section    */}
+        <h2 className="text-stone-800 text-3xl font-bold sm:flex sm:items-center">
+        <span className="hidden sm:block">Ristorante</span>&nbsp;Solipsista</h2>
+
+        {/* Right Section */}
+        <button className="bg-zinc-200 text-green-600 font-bold px-6 py-2 rounded-xl shadow-xl hover:bg-green-800 hover:text-white cursor-pointer"
+          onClick={() => {setActiveForm(PageForm.BOOKING);}}
+        >
+          Prenota
+        </button>
+      </nav>
+      {isMenuOpen && (
+        <div className="fixed top-20 left-0   bg-green-200 z-10 backdrop-blur-sm" style={{ backgroundColor: 'rgba(0, 128, 0, 0.7)' }} ref={menuRef}> 
+          <ul className="p-4 space-y-4 "> 
+            <li><a href="#menu" onClick={toggleMenu}>Menu</a></li>
+            <li><a href="#chi-siamo" onClick={toggleMenu}>Chi Siamo</a></li>
+            <li><a href="#contatti" onClick={toggleMenu}>Contatti</a></li>
+          </ul>
         </div>
-
-      {/* Center Section    */}
-      <h2 className="text-stone-800 text-3xl font-bold sm:flex sm:items-center">
-      <span className="hidden sm:block">Ristorante</span>&nbsp;Solipsista</h2>
-
-      {/* Right Section */}
-      <button className="bg-zinc-200 text-green-600 font-bold px-6 py-2 rounded-xl shadow-xl hover:bg-green-800 hover:text-white cursor-pointer"
-        onClick={() => {setActiveForm(PageForm.BOOKING);}}
-      >
-        Prenota
-      </button>
-    </nav>
+      )}
+    </>
   );
   
 }
