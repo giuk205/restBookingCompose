@@ -34,21 +34,17 @@ mydb_instance = MyDB(app)
 if __name__ == "__main__":
     mydb_instance.setup_database()
 
-def get_session():
-    with app.app_context():
-        SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=miodb.engine)
-        return SessionLocal()
-
 # Importa e registra i blueprint egli endpoint
-from app.endpoints.home import home_bp
-from app.endpoints.data import data_bp
-from app.endpoints.register import register_bp
-from app.endpoints.login import login_bp
-from app.endpoints.forgot import forgot_bp
-from app.endpoints.logout import logout_bp
-from app.endpoints.user import user_bp
-from app.endpoints.booked import booked_bp
-from app.endpoints.book import book_bp
+from app.endpoints.ep_home import home_bp
+from app.endpoints.ep_data import data_bp
+from app.endpoints.ep_register import register_bp
+from app.endpoints.ep_login import login_bp
+from app.endpoints.ep_forgot import forgot_bp
+from app.endpoints.ep_logout import logout_bp
+from app.endpoints.ep_user import user_bp
+from app.endpoints.ep_booked import booked_bp
+from app.endpoints.ep_book import book_bp
+from app.endpoints.ep_table import table_bp
 
 # Endpoint di test
 app.register_blueprint(home_bp)     # Endpoint di test per la connessione a Flask
@@ -61,6 +57,7 @@ app.register_blueprint(logout_bp)
 app.register_blueprint(user_bp)
 app.register_blueprint(booked_bp)
 app.register_blueprint(book_bp)
+app.register_blueprint(table_bp)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)

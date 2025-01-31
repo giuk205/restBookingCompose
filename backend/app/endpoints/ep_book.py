@@ -66,6 +66,10 @@ def create_booking():
 # DELETE: Cancellazione prenotazione
 @book_bp.route('/book', methods=['DELETE'])
 def cancel_booking():
+    idUser = session.get('idUser')  # Prendiamo l'id dalla sessione, chi effettua la prenotazione
+    if not idUser:
+        return jsonify({"error": "User not authenticated"}), 401
+    
     idReservation = request.args.get('idbook', type=int)
     bookStatus = request.args.get('bookStatus', type=str)
     session_user_id = session.get('idUser')
