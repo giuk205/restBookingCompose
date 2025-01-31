@@ -47,7 +47,8 @@ from app.endpoints.login import login_bp
 from app.endpoints.forgot import forgot_bp
 from app.endpoints.logout import logout_bp
 from app.endpoints.user import user_bp
-#from app.endpoints.booked import booked_bp
+from app.endpoints.booked import booked_bp
+from app.endpoints.book import book_bp
 
 # Endpoint di test
 app.register_blueprint(home_bp)     # Endpoint di test per la connessione a Flask
@@ -58,7 +59,8 @@ app.register_blueprint(login_bp)
 app.register_blueprint(forgot_bp)
 app.register_blueprint(logout_bp)
 app.register_blueprint(user_bp)
-#app.register_blueprint(booked_bp)
+app.register_blueprint(booked_bp)
+app.register_blueprint(book_bp)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)

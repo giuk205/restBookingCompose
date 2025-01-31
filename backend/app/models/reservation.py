@@ -1,6 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
+from mydb import miodb as db
 
 class Reservation(db.Model):
     __tablename__ = 'reservation'
@@ -14,6 +13,7 @@ class Reservation(db.Model):
     updated = db.Column(db.DateTime, nullable=False)
     bookStatus = db.Column(db.String(50), nullable=False)
     assignedTable = db.Column(db.Integer)
+    bookedFrom = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return f'<Reservation {self.idReservation} (Status: {self.bookStatus})>'
