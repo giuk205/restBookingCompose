@@ -13,8 +13,15 @@ def get_data():
             result.append({
                 'id': user.idUser,
                 'username': user.name,
-                'email': user.email
+                'email': user.email,
+                'phone': user.phone,
+                'privilege': user.privilege,
+                'authorizedCode': user.authorizedCode,
+                'adminNote': user.adminNote,
+                'updateDate': user.updateDate,
+                'deleted': user.deleted
             })
+
         return jsonify(result)
     except Exception as e:
         return jsonify({"error": str(e)})
