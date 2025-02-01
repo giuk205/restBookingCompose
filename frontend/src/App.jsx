@@ -4,7 +4,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import BookingCalendar from './pages/BookingCalendar'
 import User from './pages/User'
-import Admin from './pages/Admin'
+
 /*
 import Staff from './pages/Staff'
 */
@@ -51,7 +51,7 @@ function App() {
       )}
       */}
       {activeForm === PageForm.HOME && (
-        <Admin/>
+        <Home/>
       )}
     </>
   )

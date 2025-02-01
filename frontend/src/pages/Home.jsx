@@ -1,4 +1,6 @@
-
+import Admin from '../sections/Admin'
+import Staff from '../sections/Staff';
+//import Staff from '../sections/Staff'  
 
 const Home = () => {
 
@@ -35,6 +37,7 @@ const Home = () => {
       <section id="chi-siamo" className="p-8 pt-16 bg-gray-200">
         <h2 className="text-3xl font-bold mb-4">Chi Siamo</h2>
         {/* Contenuto della sezione Chi Siamo */}
+        <Admin />
         <div>Sezione Chi Siamo</div>
         <div>Sezione Chi Siamo</div>
         <div>Sezione Chi Siamo</div>
@@ -60,7 +63,7 @@ const Home = () => {
       <section id="contatti" className="p-8 pt-16">
         <h2 className="text-3xl font-bold mb-4">Contatti</h2>
         {/* Contenuto della sezione Contatti */}
-  
+        <Staff />
         <div>Sezione Contatti</div>
         <div>Sezione Contatti</div>
         <div>Sezione Contatti</div>
@@ -88,3 +91,4 @@ const Home = () => {
 };
 
 export default Home;
+
