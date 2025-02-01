@@ -23,20 +23,22 @@ function App() {
   const [idUser, setIdUser] = useState(null);
   // Quando loggato tipo di utente (0 = admin, 10 = manager, 20 = staff, 30 = user)
   const [userPrivileges, setUserPrivileges] = useState(UserType.USER); // defined in globals.UserType);
-
+  console.log("App.jsx - activeForm:", activeForm);
+  console.log("App.jsx - prevForm:", prevForm);
   return (
     <>
-      <Navbar activeForm={activeForm} setActiveForm={setActiveForm} idUser={idUser}  userPrivileges={userPrivileges} prevForm={prevForm} setPrevForm={setPrevForm}/>
+    {}
+      <Navbar activeForm={activeForm} setActiveForm={setActiveForm} idUser={idUser} setIdUser={setIdUser} userPrivileges={userPrivileges} setUserPrivileges={setUserPrivileges} prevForm={prevForm} setPrevForm={setPrevForm}/>
 
       {activeForm === PageForm.LOGIN && (
-        <Login activeForm={activeForm} setActiveForm={setActiveForm} idUser={idUser} setIdUser={setIdUser} userPrivileges={userPrivileges} setUserPrivileges={setUserPrivileges} prevForm={prevForm}/>
+        <Login activeForm={activeForm} setActiveForm={setActiveForm} idUser={idUser} setIdUser={setIdUser} userPrivileges={userPrivileges} setUserPrivileges={setUserPrivileges} prevForm={prevForm} setPrevForm={setPrevForm}/>
       )}
       {activeForm === PageForm.REGISTER && (
         <Register/>
       )}
       
       {activeForm === PageForm.USER && (
-        <User/>
+        <User activeForm={activeForm} setActiveForm={setActiveForm} idUser={idUser} setIdUser={setIdUser} userPrivileges={userPrivileges} setUserPrivileges={setUserPrivileges} prevForm={prevForm} setPrevForm={setPrevForm}/>
       )}
       {/*activeForm === PageForm.ADMIN && (
         <Admin/>
@@ -51,7 +53,7 @@ function App() {
       )}
       */}
       {activeForm === PageForm.HOME && (
-        <Home/>
+        <Home  userPrivileges={userPrivileges}/>
       )}
     </>
   )

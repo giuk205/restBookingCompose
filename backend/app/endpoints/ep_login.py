@@ -24,6 +24,6 @@ def login():
         session['name'] = user.name
         session['privilege'] = user.privilege
         
-        return jsonify({"message": "Login successful", "idUser": user.idUser}), 200
+        return jsonify({"message": "Login successful", "idUser": user.idUser, "privilege": user.privilege }), 200
     else:
         return jsonify({"message": "Invalid credentials"}), 401

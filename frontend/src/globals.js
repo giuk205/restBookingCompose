@@ -12,7 +12,7 @@ export const UserType = {
 
 
 export const PageForm = {
-  HOME: '',
+  HOME: 'home',
   LOGIN: 'login',
   REGISTER: 'register',
   USER: 'user',
@@ -20,3 +20,4 @@ export const PageForm = {
   BOOKING: 'booked',
   STAFF: 'staff',
 };
+
