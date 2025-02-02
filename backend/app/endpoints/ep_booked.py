@@ -4,6 +4,7 @@ from models.table import Table
 from models.reservation import Reservation
 from mydb import miodb as db
 from endpoints.ep_user import UserType
+from models.user import User  # Assicurati che il modello User sia importato
 
 booked_bp = Blueprint('booked', __name__)
 
@@ -55,7 +56,7 @@ def get_booked():
     ]
 
     # Prenotazioni valide per il mese specificato
-    valid_reservations = Reservation.query.filter(
+    valid_reservations = db.session.query(Reservation, User.name).join(User, Reservation.booker == User.idUser).filter(
         Reservation.when >= start_date,
         Reservation.when < end_date,
         Reservation.bookStatus.notin_(['REJECTED', 'DELETED', 'ADMIN_CANCELLED']),
@@ -66,6 +67,7 @@ def get_booked():
         {
             "idReservation": res.idReservation,
             "booker": res.booker,
+            "username": username,  
             "when": res.when.isoformat(),
             "guests": res.guests,
             "note": res.note,
@@ -75,7 +77,6 @@ def get_booked():
             "assignedTable": res.assignedTable,
             "bookedFrom": res.bookedFrom
         }
-        for res in valid_reservations 
+        for res, username in valid_reservations
     ]
-
     return jsonify({"bookings": booked_data, "tables": listaTavoli})
