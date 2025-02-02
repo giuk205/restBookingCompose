@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import { PageForm } from  '../globals';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { connectionprefix } from "../globals";
-import { IconExit, IconMoveLeft } from "../components/Icons";
+import { IconExit  } from "../components/Icons";
 
 
 
@@ -16,7 +16,7 @@ export default function User({ prevForm, setActiveForm}) {
   const [message, setMessage] = useState("");
 
 
-  const [isHovering, setIsHovering] = useState(false);
+  const modalRef = useRef(null);
 
   useEffect(() => {
     async function fetchUserData() {
@@ -90,18 +90,15 @@ export default function User({ prevForm, setActiveForm}) {
   }
 
   return (
-    <div className="h-screen w-screen bg-[url('/sfondo.jpg')] bg-cover bg-center bg-fixed flex items-center justify-center m-0">
-    <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg mt-20">
+  <div className="h-screen w-screen bg-[url('/sfondo.jpg')] bg-cover bg-center bg-fixed flex items-center justify-center m-0"
+       onClick={(e) => {if (modalRef.current && !modalRef.current.contains(e.target)) { setActiveForm(prevForm);}}}
+  >
+    <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg mt-20" ref={modalRef}>
       <h2 className="text-2xl font-bold mb-4 flex items-center justify-between">
-        <div className="cursor-pointer transition-all duration-200 border-zinc-600 border-2 rounded-lg hover:bg-green-500"
-          onClick={() => {console.log( "USER LOGOUT prevForm:"+PageForm);
-
-            setActiveForm(prevForm);} }
-          onMouseEnter={() => setIsHovering(true)}
-          onMouseLeave={() => setIsHovering(false)} >
-          <div className="icon"> 
-           {isHovering===true ? <IconMoveLeft /> : <IconExit />}
-          </div>
+        <div className="cursor-pointer transition-all duration-200  hover:bg-green-500 rounded-sm"
+          onClick={() => {setActiveForm(prevForm)} }
+         >
+           <IconExit />
         </div>
         <div> {/* Contenitore per il testo */}
           Modifica Profilo
@@ -123,8 +120,8 @@ export default function User({ prevForm, setActiveForm}) {
       <button onClick={handleUpdateUser} className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 mb-6">Aggiorna Dati</button>
 
         {/* Cancella dati utente */}
-        <div className="mb-6 text-center border-blue-500 border-1 rounded-lg hover:bg-red-500">
-          <button  onClick={handleDeleteUser} className="text-blue-500 hover:text-white text-sm"  >
+        <div className="mb-6 text-center border-blue-500 border-1 rounded-lg hover:text-white hover:bg-red-500">
+          <button  onClick={handleDeleteUser} className=" text-sm"  >
             Cancella i miei dati utente e le mie prenotazioni 
           </button>
         </div>
