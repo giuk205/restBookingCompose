@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { UserType, connectionprefix, PageForm } from  '../globals';
 
-export default function Login({ activeForm, setActiveForm, idUser, setIdUser, userPrivileges, setUserPrivileges, prevForm }) {
+export default function Login({  setActiveForm, idUser, setIdUser,  setUserPrivileges, prevForm, setPrevForm}) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [code, setCode] = useState('');
+
   const [message, setMessage] = useState('Compila i campi');
   const [isForgotPasswordAttempted, setIsForgotPasswordAttempted] = useState(false);
 
@@ -53,8 +53,10 @@ export default function Login({ activeForm, setActiveForm, idUser, setIdUser, us
         const jsonData = await response.json();
         if(jsonData.message==='Login successful'){
           setIdUser(jsonData.idUser);
-          console.log('login.loginAcces() idUser:',jsonData.idUser);
+          setUserPrivileges(jsonData.privilege);
+          console.log('login.loginAcces() idUser:',jsonData.idUser," privilege:",jsonData.userPrivileges);
           setActiveForm(prevForm);
+          setPrevForm(PageForm.HOME);
         }
       }
       else{
@@ -189,5 +191,7 @@ Login.propTypes = {
     setIdUser: PropTypes.func.isRequired,
     userPrivileges: PropTypes.oneOf(Object.values(UserType)), 
     setUserPrivileges: PropTypes.func.isRequired,
+    prevForm: PropTypes.oneOf(Object.values(PageForm)),
+    setPrevForm: PropTypes.func.isRequired,
   };
 
