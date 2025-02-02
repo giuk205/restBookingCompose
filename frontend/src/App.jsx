@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef} from 'react'
 import Navbar from "./components/Navbar";
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -23,12 +23,16 @@ function App() {
   const [idUser, setIdUser] = useState(null);
   // Quando loggato tipo di utente (0 = admin, 10 = manager, 20 = staff, 30 = user)
   const [userPrivileges, setUserPrivileges] = useState(UserType.USER); // defined in globals.UserType);
+
+
+  const homeRef = useRef(null); //Per ripristinare la posizione in Home
+
   console.log("App.jsx - activeForm:", activeForm);
   console.log("App.jsx - prevForm:", prevForm);
   return (
     <>
     {}
-      <Navbar activeForm={activeForm} setActiveForm={setActiveForm} idUser={idUser} setIdUser={setIdUser} userPrivileges={userPrivileges} setUserPrivileges={setUserPrivileges} prevForm={prevForm} setPrevForm={setPrevForm}/>
+      <Navbar homeRef={homeRef} activeForm={activeForm} setActiveForm={setActiveForm} idUser={idUser} setIdUser={setIdUser} userPrivileges={userPrivileges} setUserPrivileges={setUserPrivileges} prevForm={prevForm} setPrevForm={setPrevForm}/>
 
       {activeForm === PageForm.LOGIN && (
         <Login activeForm={activeForm} setActiveForm={setActiveForm} idUser={idUser} setIdUser={setIdUser} userPrivileges={userPrivileges} setUserPrivileges={setUserPrivileges} prevForm={prevForm} setPrevForm={setPrevForm}/>
@@ -45,16 +49,17 @@ function App() {
       )}*/
       }
       {activeForm === PageForm.BOOKING && (
-        <BookingCalendar maxGuests ={10} message = {"Questo è un messaggio"}/>
+        <BookingCalendar maxGuests ={10} message = {"Questo è un messaggio"} setActiveForm={setActiveForm} idUser={idUser} userPrivileges={userPrivileges} prevForm={prevForm} setPrevForm={setPrevForm}/>
       )}
       {/*
       {activeForm === PageForm.STAFF && (
         <Staff/>
       )}
       */}
-      {activeForm === PageForm.HOME && (
-        <Home  userPrivileges={userPrivileges}/>
-      )}
+      <Home
+        activeForm={activeForm}  prevForm={prevForm} userPrivileges={userPrivileges} homeRef={homeRef} 
+        className={`${activeForm !== PageForm.HOME ? 'hidden' : ''}`} 
+      />
     </>
   )
 }

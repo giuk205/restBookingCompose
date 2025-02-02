@@ -6,7 +6,7 @@ import { IconExit  } from "../components/Icons";
 
 
 
-export default function User({ prevForm, setActiveForm}) {
+export default function User({ prevForm, setPrevForm, setActiveForm}) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -91,7 +91,8 @@ export default function User({ prevForm, setActiveForm}) {
 
   return (
 <div className="h-screen w-screen bg-[url('/sfondo.jpg')] bg-cover bg-center bg-fixed flex items-center justify-center m-0"
-       onClick={(e) => {if (modalRef.current && !modalRef.current.contains(e.target)) { setActiveForm(prevForm);}}} >
+     onClick={(e) => {if (modalRef.current && !modalRef.current.contains(e.target)) { setActiveForm(prevForm); setPrevForm(PageForm.HOME);}}}
+  >
     <div className="max-w-md mx-auto p-5 bg-white shadow-lg rounded-lg mt-20" ref={modalRef}>
       <h2 className="text-2xl font-bold mb-4 flex items-center justify-between w-full">
         <div className="flex-grow text-center">
@@ -99,7 +100,7 @@ export default function User({ prevForm, setActiveForm}) {
           Modifica Profilo
         </div>
         <div className="cursor-pointer transition-all duration-200 hover:bg-green-500 rounded-sm"
-             onClick={() => {setActiveForm(prevForm)} }>
+             onClick={() => {setActiveForm(prevForm);setPrevForm(PageForm.HOME)} }>
           <IconExit />
         </div>
       </h2>
@@ -145,4 +146,6 @@ User.propTypes = {
     activeForm: PropTypes.oneOf(Object.values(PageForm)).isRequired, 
     setActiveForm: PropTypes.func.isRequired,
     prevForm: PropTypes.oneOf(Object.values(PageForm)),
+    setPrevForm: PropTypes.func.isRequired,
+    
 }

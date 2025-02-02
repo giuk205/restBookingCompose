@@ -4,7 +4,7 @@ from models.table import Table
 from models.reservation import Reservation
 from mydb import miodb as db
 from endpoints.ep_user import UserType
-from models.user import User  # Assicurati che il modello User sia importato
+from models.user import User
 
 booked_bp = Blueprint('booked', __name__)
 

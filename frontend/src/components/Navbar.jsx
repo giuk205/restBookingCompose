@@ -5,7 +5,7 @@ import { IconMenuList, IconSetting, IconUserSetting, IconUser, IconLogout } from
 
 
 
-export default function Navbar({ activeForm, setActiveForm, idUser, setIdUser, userPrivileges, setUserPrivileges, prevForm, setPrevForm}) {
+export default function Navbar({ activeForm, setActiveForm, idUser, setIdUser, userPrivileges, setUserPrivileges, prevForm, setPrevForm, homeRef}) {
 
   console.log( "function Navbar activeForm:"+activeForm);                
   console.log( "function Navbar met prevForm:"+prevForm);
@@ -49,6 +49,11 @@ export default function Navbar({ activeForm, setActiveForm, idUser, setIdUser, u
           <button className="icon hover:text-white hover:border-white hover:bg-green-800 rounded-lg border border-transparent cursor-pointer"
               onClick={() => {
               if (activeForm !== PageForm.LOGIN && activeForm !== PageForm.USER) {
+                if (activeForm === PageForm.HOME){
+                  //Salva la posizione dello scroll di Home
+                  homeRef.current.dataset.scrollPosition = window.scrollY;
+                }
+
                 console.log( "CLICK ICONA UTENTE mette activeForm in prevForm:"+activeForm);
                 setPrevForm(activeForm);
                 console.log( idUser === null ? "CLICK ICONA UTENTE attiva LOGIN"+PageForm.LOGIN:"CLICK ICONA UTENTE attiva USER"+PageForm.USER);
@@ -57,6 +62,7 @@ export default function Navbar({ activeForm, setActiveForm, idUser, setIdUser, u
               else{
                 console.log( "CLICK ICONA UTENTE mette activeForm:"+activeForm);
                 setActiveForm(prevForm);
+                setPrevForm(PageForm.HOME);
               }}}>
             {idUser!==null ? <IconUserSetting /> : <IconUser />}
           </button>
@@ -68,7 +74,16 @@ export default function Navbar({ activeForm, setActiveForm, idUser, setIdUser, u
 
         {/* Right Section */}
         <button className="bg-zinc-200 text-green-600 font-bold px-6 py-2 rounded-xl shadow-xl hover:bg-green-800 hover:text-white cursor-pointer"
-            onClick={() => {setActiveForm(PageForm.BOOKING);}} >
+            onClick={() => {
+              if (activeForm === PageForm.HOME){
+                //Salva la posizione dello scroll di Home
+                homeRef.current.dataset.scrollPosition = window.scrollY;
+              }
+              if (activeForm !== PageForm.BOOKING){
+                setPrevForm(activeForm);
+                setActiveForm(PageForm.BOOKING);
+              } 
+              }} >
           Prenota
         </button>
       </nav>
@@ -155,24 +170,6 @@ Navbar.propTypes = {
     setIdUser: PropTypes.func.isRequired,
     userPrivileges: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf([null])]),
     setUserPrivileges: PropTypes.func.isRequired,
+    homeRef: PropTypes.object
     
   };
-
-
-{/*  
-
-    &nbsp;&nbsp;
-    <button className="hover:text-white hover:border-white hover:bg-green-800 rounded-lg border border-transparent">
-        <IconLogout />
-    </button>
-
-            <button className="hover:text-white hover:border-white hover:bg-green-800 rounded-lg border border-transparent cursor-pointer">
-                <IconUser />  
-            </button>
-            &nbsp;&nbsp;
-            <button className="hover:text-white hover:border-white hover:bg-green-800 rounded-lg border border-transparent bg-green-600 text-white cursor-pointer">
-                <IconUserSetting /> 
-            </button>
-
-
-*/}

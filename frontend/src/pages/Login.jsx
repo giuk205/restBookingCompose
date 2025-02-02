@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { UserType, connectionprefix, PageForm } from  '../globals';
+import { IconExit  } from "../components/Icons";
 
 export default function Login({  setActiveForm, idUser, setIdUser,  setUserPrivileges, prevForm, setPrevForm}) {
   const [username, setUsername] = useState('');
@@ -8,6 +9,8 @@ export default function Login({  setActiveForm, idUser, setIdUser,  setUserPrivi
 
   const [message, setMessage] = useState('Compila i campi');
   const [isForgotPasswordAttempted, setIsForgotPasswordAttempted] = useState(false);
+    
+  const modalRefLogin = useRef(null);  //Per chiudere la modal se click all'esterno
 
   if (idUser !== null) {
     console.error('Login() Valore idUser non nullo forza PageForm.USER idUser:',idUser);
@@ -110,13 +113,27 @@ export default function Login({  setActiveForm, idUser, setIdUser,  setUserPrivi
     setActiveForm(PageForm.REGISTER);
   };
 
-//    <div className="bg-white p-16 rounded-2xl shadow-lg w-full max-w-md">
+//  <h2 className="text-4xl font-bold text-center mb-15">Login</h2>
 
   return (
-    <div className="h-screen w-screen bg-[url('/sfondo.jpg')] bg-cover bg-center bg-fixed flex items-center justify-center">
-    <div className="p-8 sm:p-8 bg-white shadow-2xl rounded-2xl w-full mx-auto max-w-md sm:max-w-sm">
+    <div className="h-screen w-screen bg-[url('/sfondo.jpg')] bg-cover bg-center bg-fixed flex items-center justify-center"
+         onClick={(e) => {if (modalRefLogin.current && !modalRefLogin.current.contains(e.target)) { setActiveForm(prevForm); setPrevForm(PageForm.HOME);}}}
+    >
+    <div className="p-8 sm:p-8 bg-white shadow-2xl rounded-2xl w-full mx-auto max-w-md sm:max-w-sm" ref={modalRefLogin}>
   
-    <h2 className="text-4xl font-bold text-center mb-15">Login</h2>
+    <h2 className="text-4xl font-bold mb-15 flex items-center justify-between">
+        <div className="cursor-pointer transition-all duration-200  hover:bg-green-500 rounded-sm"
+          onClick={() => {setActiveForm(prevForm);setPrevForm(PageForm.HOME)} }
+         >
+           <IconExit />
+        </div>
+        <div> {/* Contenitore per il testo */}
+          Login
+        </div>
+        <div className="w-12"></div> {/* Spazio vuoto a destra per bilanciare */}
+    </h2>
+
+
 
         {/* Nome o Email */}
         <div className="mb-4">
