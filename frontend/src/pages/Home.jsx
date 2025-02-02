@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import Admin from '../sections/Admin'
 import Staff from '../sections/Staff';
+import Tavoli from '../sections/Tavoli';
 
 import { UserType } from  '../globals';
 
@@ -25,6 +26,7 @@ const Home = ({ userPrivileges}) => {
       <section id="menu" className="p-8 ">
         <h2 className="text-3xl font-bold mb-4">Menu</h2>
         {/* Contenuto della sezione Menu */}
+        <Tavoli/>
         <div>Sezione Menu</div>
         <div>Sezione Menu</div>
         <div>Sezione Menu</div>

@@ -9,12 +9,24 @@ export default function Register({ initialMessage = "Ciao" }) {
   const [code, setCode] = useState('');
   const [message, setMessage] = useState(initialMessage);
   const [emailValida, setEmailValida] = useState(true);
+  const [phoneValido, setPhoneValido] = useState(true);
 
   /**
+   * Controllo email e numer odi telefono
    * Gestisce la pressione del tasto codice email.
    * Verifica che i campi siano stati compilati e poi 
    * esegue la logica per inviare i dati al server.
-   */
+   */  
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isValidPhone = (phone) => {
+      const phoneRegex = /^[0-9]{10}$/; // Accetta solo 10 cifre
+      return phoneRegex.test(phone);
+  };
+
   const handleSendCode = async () => {
     if (!email) {
       setMessage("Inserisci un'email per ricevere il codice.");
@@ -24,8 +36,16 @@ export default function Register({ initialMessage = "Ciao" }) {
       setMessage("Inserisci un'email valida.");
       return;
     }
+    if (!phone) {
+      setMessage("Inserisci numero di telefono per ricevere il codice.");
+      return;
+    }
+    if (!phone || !isValidPhone(phone)) {
+      setMessage("Inserisci un numero di telefono valido (10 cifre).");
+      return;
+    }
     setMessage(`Codice inviato all'email ${email}`);
-      
+
     // Verifica che i campi siano stati compilati
     if (!email || !username || !phone) {
       setMessage('Per accedere devi compilare entrambi i campi');
@@ -83,6 +103,10 @@ export default function Register({ initialMessage = "Ciao" }) {
       setMessage("Inserisci un'email valida.");
       return;
     }
+    if (!isValidPhone(phone)) {
+      setMessage("Inserisci un numero di telefono valido.");
+      return; 
+    }
     setMessage("Registrazione completata!");
 
     // Logica per inviare i dati al server
@@ -127,10 +151,7 @@ export default function Register({ initialMessage = "Ciao" }) {
     console.log('Register.handleRegister END');
   };
 
-  const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+
 
   return (
     <div className="h-screen w-screen bg-[url('/sfondo.jpg')] bg-cover bg-center bg-fixed flex items-center justify-center">
@@ -184,9 +205,12 @@ export default function Register({ initialMessage = "Ciao" }) {
                 setPhone(e.target.value)
               }}
               placeholder="Telefono"
-              className="w-full border rounded-lg p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
+              className={`w-full border rounded-lg p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400 ${phoneValido ? '' : 'border-pink-500 text-pink-600'}`} 
+              onFocus={() => { if (phone === '' || phone === '+39') setPhone('+39'); }} 
+              onBlur={() => setPhoneValido(isValidPhone(phone))}
+              onSelect={() => setPhoneValida(true)}
+              />
+            </div>
 
           <div className="flex items-center space-x-2 mt-8">
             <button

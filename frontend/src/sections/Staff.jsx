@@ -22,6 +22,7 @@ export default function Staff() {
             const [date, time] = res.when.split("T"); // Divide la data dall'orario
             return {
               id: res.idReservation,
+              username: res.username, 
               guests: res.guests,
               time: time.substring(0, 5), // Prende solo HH:MM
               date,
@@ -51,14 +52,14 @@ export default function Staff() {
 
       {message && <p className="text-center mt-4 text-red-500">{message}</p>}
 
-      <div className="mt-4 border rounded-lg p-4 overflow-x-auto"> {/* Aggiungi la classe overflow-x-auto */}
+      <div className="mt-4 border rounded-lg p-4 overflow-x-auto"> {/* Aggiunta di overflow-x-auto */}
         {loading ? (
           <p className="text-center text-gray-500">Caricamento prenotazioni...</p>
         ) : (
-          <table className="w-full table-auto">
+          <table className="w-full table-auto min-w-max"> {/* Min-width per garantire che la tabella non si rimpicciolisca troppo */}
             <thead>
               <tr className="bg-gray-200">
-                <th className="p-2 font-bold">ID Prenotazione</th>
+                <th className="p-2 font-bold">Nome</th>
                 <th className="p-2 font-bold">N. Persone</th>
                 <th className="p-2 font-bold">Orario</th>
                 <th className="p-2 font-bold">Data</th>
@@ -75,23 +76,17 @@ export default function Staff() {
                   </td>
                 </tr>
               ) : (
-                reservations.map((res, index) => {
-                  // Alterna il colore di sfondo delle righe
-                  const isEvenRow = index % 2 === 0;
-                  const rowBackground = isEvenRow ? "bg-white" : "bg-neutral-300"; // Alterna il colore di sfondo
-
-                  return (
-                    <tr key={res.id} className={`${rowBackground} border-b`}>
-                      <td className="p-2">{res.id}</td>
-                      <td className="p-2">{res.guests}</td>
-                      <td className="p-2">{res.time}</td>
-                      <td className="p-2">{res.date}</td>
-                      <td className="p-2">{res.tableNumber}</td>
-                      <td className="p-2">{res.status}</td>
-                      <td className="p-2">{res.note}</td>
-                    </tr>
-                  );
-                })
+                reservations.map((res) => (
+                  <tr key={res.id} className="bg-white border-b">
+                    <td className="p-2">{res.username}</td>
+                    <td className="p-2">{res.guests}</td>
+                    <td className="p-2">{res.time}</td>
+                    <td className="p-2">{res.date}</td>
+                    <td className="p-2">{res.tableNumber}</td>
+                    <td className="p-2">{res.status}</td>
+                    <td className="p-2">{res.note}</td>
+                  </tr>
+                ))
               )}
             </tbody>
           </table>
