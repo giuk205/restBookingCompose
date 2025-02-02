@@ -45,19 +45,21 @@ export default function Admin() {
     return message && <p className="text-center mt-4 text-red-500">{message}</p>;
   };
 
+  const sortedUsers = user.sort((a, b) => a.privilege - b.privilege);
+
   return (
     <div className="p-6 max-w-4xl mx-auto bg-gray-100 rounded-xl shadow-lg mt-16">
       <h2 className="text-2xl font-bold text-center">Gestione Utenti</h2>
 
       {renderMessage()}
 
-      <div className="mt-4 border rounded-lg p-4">
+      <div className="mt-4 border rounded-lg p-4 overflow-x-auto">
         {loading ? (
           <p className="text-center text-gray-500">Caricamento utenti...</p>
         ) : (
           <table className="w-full table-auto">
             <thead>
-              <tr className="bg-gray-200 text-left">  
+              <tr className="bg-gray-200 text-left">
                 <th className="p-2 font-bold">Nome</th>
                 <th className="p-2 font-bold">Email</th>
                 <th className="p-2 font-bold">Telefono</th>
@@ -66,28 +68,39 @@ export default function Admin() {
               </tr>
             </thead>
             <tbody>
-              {user.length === 0 ? (
-                <tr>
-                  <td colSpan="5" className="text-center p-4">
-                    Nessun utente trovato
+          {user.length === 0 ? (
+            <tr>
+              <td colSpan="5" className="text-center p-4">Nessun utente trovato</td>
+            </tr>
+          ) : (
+            sortedUsers.map((user, index) => {
+              const isEvenRow = index % 2 === 0;
+              const rowBackground = isEvenRow ? "bg-white" : "bg-neutral-300";
+
+              // Controlliamo se il privilegio cambia rispetto all'elemento attuale
+              const isPrivilegeChanged =
+                index < sortedUsers.length - 1 && user.privilege !== sortedUsers[index + 1].privilege;
+
+              return (
+                <tr
+                  key={user.id}
+                  className={`${rowBackground} border-b border-black 
+                    ${isPrivilegeChanged ? "border-b border-orange-500" : ""} 
+                    hover:bg-gray-200 transition-colors duration-300`}
+                >
+                  <td className="p-2">{user.username}</td>
+                  <td className="p-2">{user.email}</td>
+                  <td className="p-2">{user.phone}</td>
+                  <td className="p-2">{getPrivilegeLabel(user.privilege)}</td>
+                  <td>
+                    <button className="text-blue-500 hover:text-blue-700">Modifica</button>
                   </td>
                 </tr>
-              ) : (
-                user.map((user) => (
-                  <tr key={user.id} className="bg-white border-b">
-                    <td className="p-2">{user.username}</td>
-                    <td className="p-2">{user.email}</td>
-                    <td className="p-2">{user.phone}</td>
-                    <td className="p-2">{getPrivilegeLabel(user.privilege)}</td>
-                    <td>
-                      <button className="text-blue-500 hover:text-blue-700">
-                        Modifica
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
+              );
+            })
+          )}
+        </tbody>
+
           </table>
         )}
       </div>

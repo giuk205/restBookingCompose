@@ -51,7 +51,7 @@ export default function Staff() {
 
       {message && <p className="text-center mt-4 text-red-500">{message}</p>}
 
-      <div className="mt-4 border rounded-lg p-4">
+      <div className="mt-4 border rounded-lg p-4 overflow-x-auto"> {/* Aggiungi la classe overflow-x-auto */}
         {loading ? (
           <p className="text-center text-gray-500">Caricamento prenotazioni...</p>
         ) : (
@@ -75,17 +75,23 @@ export default function Staff() {
                   </td>
                 </tr>
               ) : (
-                reservations.map((res) => (
-                  <tr key={res.id} className="bg-white border-b">
-                    <td className="p-2">{res.id}</td>
-                    <td className="p-2">{res.guests}</td>
-                    <td className="p-2">{res.time}</td>
-                    <td className="p-2">{res.date}</td>
-                    <td className="p-2">{res.tableNumber}</td>
-                    <td className="p-2">{res.status}</td>
-                    <td className="p-2">{res.note}</td>
-                  </tr>
-                ))
+                reservations.map((res, index) => {
+                  // Alterna il colore di sfondo delle righe
+                  const isEvenRow = index % 2 === 0;
+                  const rowBackground = isEvenRow ? "bg-white" : "bg-neutral-300"; // Alterna il colore di sfondo
+
+                  return (
+                    <tr key={res.id} className={`${rowBackground} border-b`}>
+                      <td className="p-2">{res.id}</td>
+                      <td className="p-2">{res.guests}</td>
+                      <td className="p-2">{res.time}</td>
+                      <td className="p-2">{res.date}</td>
+                      <td className="p-2">{res.tableNumber}</td>
+                      <td className="p-2">{res.status}</td>
+                      <td className="p-2">{res.note}</td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>

@@ -1,6 +1,5 @@
-import Admin from '../sections/Admin'
+import Admin from '../sections/Admin';
 import Staff from '../sections/Staff';
-//import Staff from '../sections/Staff'  
 
 const Home = () => {
 
