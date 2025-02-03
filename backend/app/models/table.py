@@ -10,7 +10,10 @@ class Table(db.Model):
     seatNumber = db.Column(db.SmallInteger, nullable=False)  
     availableFrom = db.Column(db.DateTime, nullable=False)
     availableUntil = db.Column(db.DateTime, nullable=True)
-    updated = db.Column(db.DateTime, nullable=False)
+    updated = db.Column(db.DateTime, nullable=False,
+        server_default=db.text("CURRENT_TIMESTAMP"), 
+        server_onupdate=db.text("CURRENT_TIMESTAMP")  # Assicura l'aggiornamento automatico
+    )
 
     def __repr__(self):
         return f'<Table {self.tableName} (Seats: {self.seatNumber})>'

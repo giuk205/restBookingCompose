@@ -5,6 +5,7 @@ import { UserType } from  '../globals';
 import Admin from '../sections/Admin'
 import Staff from '../sections/Staff';
 import Tavoli from '../sections/Tavoli';
+import Solipsista from '../sections/Solipsista';
 
 const Home = ({ userPrivileges, className, homeRef}) => {
 
@@ -36,20 +37,7 @@ const Home = ({ userPrivileges, className, homeRef}) => {
         </section>
       </>)}
       <section id="Solipsista" className="py-16 px-8 flex justify-center">
-        <div className="max-w-xl">
-          <h2 className="text-3xl font-bold mb-6 text-center">
-          Solipsista – L’esperienza è solo tua
-          </h2>
-          <p className="text-lg leading-relaxed text-gray-700">
-            Benvenuto in <strong>Solipsista</strong>, un luogo in cui la realtà si piega ai tuoi sensi e il gusto diventa un’esperienza assoluta. Qui, il mondo esterno svanisce, lasciando spazio solo a te, ai tuoi desideri e ai sapori che si intrecciano in un’armonia perfetta.
-          </p>
-          <p className="text-lg leading-relaxed text-gray-700 mt-4">
-            Non è solo un ristorante, è un viaggio interiore. Ogni piatto è pensato per essere vissuto in modo unico e personale, perché ciò che conta è la tua percezione, la tua emozione, il tuo momento.
-          </p>
-          <p className="text-lg leading-relaxed text-gray-700 mt-4 font-semibold">
-            In un mondo che urla, <em>Solipsista sussurra.</em> Qui, l’unica realtà che esiste è la tua.
-         </p>
-        </div>
+        <Solipsista />
       </section>
 
       <section id="menu" className="p-8 ">

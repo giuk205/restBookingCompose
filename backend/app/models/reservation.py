@@ -10,7 +10,11 @@ class Reservation(db.Model):
     guests = db.Column(db.SmallInteger, nullable=False)
     note = db.Column(db.String(255))  # Specificata lunghezza per migliorare efficienza
     created = db.Column(db.DateTime, nullable=False)
-    updated = db.Column(db.DateTime, nullable=False)
+    updated = db.Column(db.DateTime, nullable=False,
+        server_default=db.text("CURRENT_TIMESTAMP"), 
+        server_onupdate=db.text("CURRENT_TIMESTAMP")  # Assicura l'aggiornamento automatico
+    )
+
     bookStatus = db.Column(db.String(50), nullable=False)
     assignedTable = db.Column(db.Integer)
     bookedFrom = db.Column(db.Integer, nullable=False)

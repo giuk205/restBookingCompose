@@ -12,8 +12,11 @@ class User(db.Model):
     authorizedCode = db.Column(db.SmallInteger, default=0)
     privilege = db.Column(db.SmallInteger, nullable=False, default=40)  # 0=SuperAdmin, 10=Admin, 20=Manager, 30=Staff, 40=User
     adminNote = db.Column(db.Text)
-    updateDate = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
-    deleted = db.Column(db.Boolean, default=False)
+    updateDate = db.Column(db.DateTime, nullable=False,
+        server_default=db.text("CURRENT_TIMESTAMP"), 
+        server_onupdate=db.text("CURRENT_TIMESTAMP")  # Assicura l'aggiornamento automatico
+    )
+    db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return f'<User {self.name} ({self.email})>'
