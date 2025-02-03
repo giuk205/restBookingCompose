@@ -114,23 +114,24 @@ export default function BookingCalendar({ maxGuests = 10, message = "Ciao", setA
     <div className="h-screen w-screen bg-[url('/sfondo.jpg')] bg-cover bg-center bg-fixed flex items-center justify-center m-0"
          onClick={(e) => {if (modalRefBook.current && !modalRefBook.current.contains(e.target)) { setActiveForm(prevForm); setPrevForm(PageForm.HOME);}}}
     >
-    {/* Contenitore principale con margine superiore */}
-    <div className="p-5 bg-white shadow-2xl rounded-2xl w-full max-w-md mt-20"  ref={modalRefBook} >
-        {/* Sezione superiore: Logo e Titolo */}
-          <div className="text-center mb-6">
-          <img src="/logo11.png" alt="Logo" className="mx-auto w-32 mb-2" />
-          <h2 className="text-2xl font-bold flex items-center justify-between">
-            <div className="cursor-pointer transition-all duration-200  hover:bg-green-500 rounded-sm"
-              onClick={() => {setActiveForm(prevForm);setPrevForm(PageForm.HOME)} }
-            >
-              <IconExit />
-            </div>
-            <div> {/* Contenitore per il testo */}
-              Prenota un Tavolo
-            </div>
-            <div className="w-12"></div> {/* Spazio vuoto a destra per bilanciare */}
-          </h2>
-          </div>
+{/* Contenitore principale con margine superiore */}
+<div className="p-5 bg-white shadow-2xl rounded-2xl w-full max-w-md mt-20" ref={modalRefBook}>
+  <div className="text-center mb-6">
+    <img src="/logo11.png" alt="Logo" className="mx-auto w-32 mb-2" />
+    <h2 className="text-2xl font-bold mb-4 flex items-center justify-center relative w-full">
+      {/* Testo centrato */}
+      <div className="absolute left-0 right-0 text-center">
+        Prenota un Tavolo
+      </div>
+      {/* Icona X posizionata a destra nell'angolo */}
+      <div 
+        className="absolute top-[-150px] right-[-15px] p-2 cursor-pointer transition-all duration-200 hover:bg-green-500 rounded-sm"
+        onClick={() => { setActiveForm(prevForm); setPrevForm(PageForm.HOME) }}
+      >
+        <IconExit />
+      </div>
+    </h2>
+  </div>
 
           <div className="mb-4">
             <div className="flex justify-between items-center mb-2">

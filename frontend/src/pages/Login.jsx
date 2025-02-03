@@ -121,17 +121,19 @@ export default function Login({  setActiveForm, idUser, setIdUser,  setUserPrivi
     >
     <div className="p-8 sm:p-8 bg-white shadow-2xl rounded-2xl w-full mx-auto max-w-md sm:max-w-sm" ref={modalRefLogin}>
   
-    <h2 className="text-4xl font-bold mb-15 flex items-center justify-between">
-        <div className="cursor-pointer transition-all duration-200  hover:bg-green-500 rounded-sm"
-          onClick={() => {setActiveForm(prevForm);setPrevForm(PageForm.HOME)} }
-         >
-           <IconExit />
-        </div>
-        <div> {/* Contenitore per il testo */}
-          Login
-        </div>
-        <div className="w-12"></div> {/* Spazio vuoto a destra per bilanciare */}
-    </h2>
+    <h2 className="text-4xl font-bold mb-15 flex items-center w-full">
+    <div className="flex-grow text-center">
+      Login
+    </div>
+    <div 
+      className="cursor-pointer transition-all duration-200 hover:bg-green-500 rounded-sm ml-auto"
+      onClick={() => { setActiveForm(prevForm); setPrevForm(PageForm.HOME) }}
+    >
+      <IconExit />
+    </div>
+  </h2>
+
+
 
 
 

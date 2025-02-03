@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { connectionprefix } from "../globals";
 
 export default function Tavoli() {
-  const [tables, setTables] = useState([]);
+  const [table, setTable] = useState([]);
   const [newTable, setNewTable] = useState({
     nome: "",
-    numero: "",
     posti: "",
     disponibileDa: "",
     disponibileFino: "",
@@ -14,30 +13,28 @@ export default function Tavoli() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchTables() {
+    async function fetchTable() {
       try {
-        const response = await fetch(`${connectionprefix}/tables`, {
+        const response = await fetch(`${connectionprefix}/table`, {
           method: "GET",
           credentials: "include",
         });
 
         if (response.ok) {
           const data = await response.json();
-          
-          const formattedData = data.tables.map((table) => {
-            const [dateFrom, timeFrom] = table.availableFrom.split("T");
-            const [dateTo, timeTo] = table.availableUntil.split("T");
-            return {
-              id: table.id,
-              nome: table.name,
-              numero: table.number,
-              posti: table.seats,
-              disponibileDa: dateFrom,
-              disponibileFino: dateTo,
-            };
-          });
 
-          setTables(formattedData);
+          // Estrarre e formattare i dati dei tavoli
+          const formattedData = data.map((table) => ({
+            id: table.idTable,
+            nome: table.tableName || `Tavolo ${table.idTable}`, // Nome del tavolo (default se mancante)
+            posti: table.seatNumber, // Numero di posti
+            disponibileDa: table.availableFrom.split("T")[1].substring(0, 5), // Solo HH:MM
+            disponibileFino: table.availableUntil
+              ? table.availableUntil.split("T")[1].substring(0, 5)
+              : "N/D", // Gestisce i valori null
+          }));
+
+          setTable(formattedData);
         } else {
           setMessage("Errore nel caricamento dei tavoli.");
         }
@@ -48,7 +45,7 @@ export default function Tavoli() {
       }
     }
 
-    fetchTables();
+    fetchTable();
   }, []);
 
   const handleChange = (e) => {
@@ -58,15 +55,90 @@ export default function Tavoli() {
     });
   };
 
-  const handleAddTable = () => {
-    // Aggiungi un nuovo tavolo nella lista (in una vera app, dovresti inviare i dati al server)
-    setTables([...tables, { ...newTable, id: tables.length + 1 }]);
+  const handleAddTable = async () => {
+    const tableData = {
+      tableName: newTable.nome,
+      seatNumber: newTable.posti,
+      availableFrom: newTable.disponibileDa +" 00:00:00",
+      //to do:availableUntil: newTable.disponibileFino,
+    };
+
+    try {
+      const response = await fetch(`${connectionprefix}/table`, {
+        method: "POST", // Metodo POST per la creazione
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(tableData),
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        // Aggiungi il nuovo tavolo alla lista
+        setTable((prevTable) => [
+          ...prevTable,
+          {
+            id: result.idTable,
+            nome: result.tableName,
+            posti: result.seatNumber,
+            disponibileDa: new Date(table.availableFrom).toLocaleString(), // Formatta la data in modo completo
+            disponibileFino: table.availableUntil 
+            ? new Date(table.availableUntil).toLocaleString()
+          : "N/D", // Gestisce i valori null
+          },
+        ]);
+        setMessage("Tavolo aggiunto con successo!");
+      } else {
+        const errorData = await response.json();
+        setMessage(`Errore: ${errorData.message}`);
+      }
+    } catch (error) {
+      setMessage("Errore di connessione: " + error.message);
+    }
+  };
+
+  const handleEditTable = async () => {
+    const tableData = {
+      tableName: newTable.nome,
+      seatNumber: newTable.posti,
+      availableFrom: newTable.disponibileDa,
+      availableUntil: newTable.disponibileFino,
+    };
+
+    try {
+      const response = await fetch(`<span class="math-inline">\{connectionprefix\}/table/</span>{newTable.id}`, {
+        method: "PUT", // Metodo PUT per la modifica
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(tableData),
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        // Aggiorna il tavolo modificato nella lista
+        setTable((prevTable) =>
+          prevTable.map((table) => (table.id === result.idTable ? result : table))
+        );
+        setMessage("Tavolo modificato con successo!");
+      } else {
+        const errorData = await response.json();
+        setMessage(`Errore: ${errorData.message}`);
+      }
+    } catch (error) {
+      setMessage("Errore di connessione: " + error.message);
+    }
+  };
+
+  const handleSelectTableForEdit = (table) => {
     setNewTable({
-      nome: "",
-      numero: "",
-      posti: "",
-      disponibileDa: "",
-      disponibileFino: "",
+      id: table.id,
+      nome: table.nome,
+      posti: table.posti,
+      disponibileDa: table.disponibileDa,
+      disponibileFino: table.disponibileFino,
     });
   };
 
@@ -81,7 +153,9 @@ export default function Tavoli() {
           <div className="space-y-4">
             {/* Aggiungi nuova riga per il nuovo tavolo */}
             <div className="flex justify-between items-center">
-              <label htmlFor="nome" className="w-1/4 text-left">Nome Tavolo</label>
+              <label htmlFor="nome" className="w-1/4 text-left">
+                Nome Tavolo
+              </label>
               <input
                 type="text"
                 name="nome"
@@ -94,20 +168,9 @@ export default function Tavoli() {
             </div>
 
             <div className="flex justify-between items-center">
-              <label htmlFor="numero" className="w-1/4 text-left">Numero Tavolo</label>
-              <input
-                type="text"
-                name="numero"
-                id="numero"
-                value={newTable.numero}
-                onChange={handleChange}
-                placeholder="Numero tavolo"
-                className="w-3/4 p-2 border rounded"
-              />
-            </div>
-
-            <div className="flex justify-between items-center">
-              <label htmlFor="posti" className="w-1/4 text-left">Posti</label>
+              <label htmlFor="posti" className="w-1/4 text-left">
+                Posti
+              </label>
               <input
                 type="number"
                 name="posti"
@@ -120,7 +183,9 @@ export default function Tavoli() {
             </div>
 
             <div className="flex justify-between items-center">
-              <label htmlFor="disponibileDa" className="w-1/4 text-left">Disponibile Da</label>
+              <label htmlFor="disponibileDa" className="w-1/4 text-left">
+                Disponibile Da
+              </label>
               <input
                 type="date"
                 name="disponibileDa"
@@ -132,7 +197,9 @@ export default function Tavoli() {
             </div>
 
             <div className="flex justify-between items-center">
-              <label htmlFor="disponibileFino" className="w-1/4 text-left">Disponibile Fino</label>
+              <label htmlFor="disponibileFino" className="w-1/4 text-left">
+                Disponibile Fino
+              </label>
               <input
                 type="date"
                 name="disponibileFino"
@@ -153,47 +220,54 @@ export default function Tavoli() {
             </div>
 
             {/* Tabella dei tavoli esistenti */}
-            <table className="w-full table-auto min-w-max mt-6">
-              <thead>
-                <tr className="bg-gray-200">
-                  <th className="p-2 font-bold">Nome Tavolo</th>
-                  <th className="p-2 font-bold">Numero Tavolo</th>
-                  <th className="p-2 font-bold">Posti</th>
-                  <th className="p-2 font-bold">Disponibile Da</th>
-                  <th className="p-2 font-bold">Disponibile Fino</th>
-                </tr>
-              </thead>
-              <tbody>
-                {tables.length === 0 ? (
-                  <tr>
-                    <td colSpan="6" className="text-center p-4">
-                      Nessun tavolo disponibile
-                    </td>
+            <div className="overflow-x-auto">
+            <table className="border border-gray-400 rounded-lg overflow-hidden w-full">
+                <thead>
+                  <tr className="bg-gray-200">
+                    <th className="font-bold border border-gray-300 text-left">Nome Tavolo</th>
+                    <th className="font-bold border border-gray-300 text-left">Posti</th>
+                    <th className="font-bold border border-gray-300 text-left">Disponibile Da</th>
+                    <th className="font-bold border border-gray-300 text-left">Disponibile Fino</th>
+                    <th className="font-bold border border-gray-300 text-left">Azione</th>
                   </tr>
-                ) : (
-                  tables.map((table) => (
-                    <tr key={table.id} className="bg-white border-b">
-                      <td className="p-2">{table.nome}</td>
-                      <td className="p-2">{table.numero}</td>
-                      <td className="p-2">{table.posti}</td>
-                      <td className="p-2">{table.disponibileDa}</td>
-                      <td className="p-2">{table.disponibileFino}</td>
-                      <td className="p-2">
-                        <button
-                          onClick={() => {/* Logica per modificare il tavolo */}}
-                          className="bg-blue-500 text-white px-4 py-2 rounded"
-                        >
-                          Modifica
-                        </button>
+                </thead>
+                <tbody>
+                  {table.length === 0 ? (
+                    <tr>
+                      <td colSpan="5" className="text-center p-4 border border-gray-500 rounded-lg">
+                        Nessun tavolo disponibile
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                  ) : (
+                    table.map((table, index) => {
+                      const isEvenRow = index % 2 === 0;
+                      const rowBackground = isEvenRow ? "bg-white" : "bg-neutral-300";
+                      return (
+                        <tr key={table.id} className={`bg withe border-gray-500 ${rowBackground}`}>
+                          <td className="border border-gray-500">{table.nome}</td>
+                          <td className="border border-gray-500">{table.posti}</td>
+                          <td className="border border-gray-500">{table.disponibileDa}</td>
+                          <td className="border border-gray-500">{table.disponibileFino}</td>
+                          <td className="border border-gray-500">
+                            <button
+                              onClick={() => handleSelectTableForEdit(table)}
+                              className="bg-blue-500 text-white py-1 rounded"
+                            >
+                              Modifica
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>
     </div>
   );
 }
+              
+  
