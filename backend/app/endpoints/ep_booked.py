@@ -11,8 +11,8 @@ booked_bp = Blueprint('booked', __name__)
 @booked_bp.route('/booked', methods=['GET'])
 def get_booked():
     # Verifica che l'utente sia loggato e abbia il ruolo giusto
-    if not session.get('privilege') or session.get('privilege') > UserType.STAFF.value:
-        return jsonify({"error": "Unauthorized access"}), 403
+    #if not session.get('privilege') or session.get('privilege') > UserType.STAFF.value:
+    #    return jsonify({"error": "Unauthorized access"}), 403
 
 
     date_str = request.args.get('month', type=str, default=None)
