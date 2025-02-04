@@ -16,7 +16,7 @@ class User(db.Model):
         server_default=db.text("CURRENT_TIMESTAMP"), 
         server_onupdate=db.text("CURRENT_TIMESTAMP")  # Assicura l'aggiornamento automatico
     )
-    db.Column(db.Boolean, default=False)
+    deleted = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return f'<User {self.name} ({self.email})>'
