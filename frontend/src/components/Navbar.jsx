@@ -3,7 +3,7 @@ import { UserType, PageForm } from  '../globals';
 import { useState, useRef, useEffect } from 'react';
 import { IconMenuList, IconSetting, IconUserSetting, IconUser, IconLogout } from "./Icons";
 
-
+import {MyModal} from './MyModal';
 
 export default function Navbar({ activeForm, setActiveForm, idUser, setIdUser, userPrivileges, setUserPrivileges, prevForm, setPrevForm, homeRef}) {
 
@@ -33,20 +33,27 @@ export default function Navbar({ activeForm, setActiveForm, idUser, setIdUser, u
     };
   }, [isMenuOpen]);
 
-
+/*
+            <button className="icon hover:text-white hover:border-white hover:bg-green-800 rounded-lg border border-transparent cursor-pointer"
+              onClick={}>
+              <IconSetting /></button> </> )}
+*/
   return (
     <>
       <nav className="fixed top-0 left-0 w-full bg-linear-to-r/srgb backdrop-blur-xs from-orange-300/90  to-amber-200/90 p-2 shadow-lg flex justify-between items-center">
         {/* Sezione sinistra */}
         <div className=" text-zinc-200  flex">
-          <button onClick={toggleMenu} onMouseDown={(e) => e.stopPropagation()}  className="icon hover:text-white hover:border-white hover:bg-green-800 rounded-lg border border-transparent cursor-pointer">
+          <button onClick={toggleMenu} onMouseDown={(e) => e.stopPropagation()}  className="flex justify-center items-center hover:text-white hover:border-white hover:bg-green-800 rounded-lg border p-1 border-transparent cursor-pointer">
             <IconMenuList /></button>
-          {userPrivileges < UserType.USER && ( <> &nbsp;&nbsp;
-            <button className="icon hover:text-white hover:border-white hover:bg-green-800 rounded-lg border border-transparent cursor-pointer">
-              <IconSetting /></button> </> )}
+            &nbsp;&nbsp;
+          {userPrivileges < UserType.USER && ( 
+                        <MyModal/>
+            )}
+          
           &nbsp;&nbsp;
           {/* Icona utente */}
-          <button className="icon hover:text-white hover:border-white hover:bg-green-800 rounded-lg border border-transparent cursor-pointer"
+          
+          <button className="flex justify-center items-center hover:text-white hover:border-white hover:bg-green-800 rounded-lg border p-1 border-transparent cursor-pointer"
               onClick={() => {
               if (activeForm !== PageForm.LOGIN && activeForm !== PageForm.USER) {
                 if (activeForm === PageForm.HOME){

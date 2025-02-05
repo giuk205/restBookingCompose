@@ -48,9 +48,9 @@ function App() {
         <Admin/>
       )}*/
       }
-      {activeForm === PageForm.BOOKING && (
-        <BookingCalendar maxGuests ={10} message = {"Questo è un messaggio"} setActiveForm={setActiveForm} idUser={idUser} userPrivileges={userPrivileges} prevForm={prevForm} setPrevForm={setPrevForm}/>
-      )}
+      <BookingCalendar maxGuests ={10} setActiveForm={setActiveForm} idUser={idUser} userPrivileges={userPrivileges} prevForm={prevForm} setPrevForm={setPrevForm}
+          className={`${activeForm !== PageForm.BOOKING ? 'hidden' : ''}`} 
+      />
       {/*
       {activeForm === PageForm.STAFF && (
         <Staff/>

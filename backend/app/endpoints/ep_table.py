@@ -10,9 +10,10 @@ table_bp = Blueprint('table', __name__)
 @table_bp.route('/table', methods=['GET'])
 def get_tables():
     # Verifica che l'utente sia loggato e abbia il ruolo giusto
-    if not session.get('privilege') or session.get('privilege') > UserType.MANAGER.value:
-        return jsonify({"error": "Unauthorized access"}), 403
-    
+    privilege = session.get('privilege')
+    if privilege is None or privilege > UserType.MANAGER.value:
+        print(f'NON AUTORIZZATO, privilege={privilege} (None)', flush=True)  # Stampa None esplicitamente
+        return jsonify({"error": "Unauthorized access"}), 403    
     tables = Table.query.all()
     tables_data = [
         {
