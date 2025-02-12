@@ -1,0 +1,124 @@
+{
+  "Sezioni": [
+    {
+      "Sottotitolo": "Antipasti",
+      "Piatti": [
+        {
+            "Nome": "Gambero Rosso",
+            "Descrizione": "Gambero Rosso crudo, Panzanella all’agro, Caviale e zuppetta di Olive di Nocellara Ricciola",
+            "Prezzo": "€40,00"
+        },
+        {
+            "Nome": "Ricciola affumicata",
+            "Descrizione": "Salsa Bernese, gel di Limoni di Sorrento e essenza di Sedano",
+            "Prezzo": "€40,00"
+        },
+        {
+            "Nome": "Astice",
+            "Descrizione": "Astice Marinato, Funghi dinverno, Foie gras, Tuorlo D’Uovo e Tartufo bianco",
+            "Prezzo": "€40,00 "
+        },
+        {
+            "Nome": "Anatra ’Bosco & Sottobosco’",
+            "Descrizione": "Anatra Barbecue con Arachidi, Castagne, Lampone e Tartufo nero",
+            "Prezzo": "€30,00"
+        }
+    ]
+    },
+    {
+      "Sottotitolo": "Primi",
+      "Piatti": [
+        {
+            "Nome": "Bottoni",
+            "Descrizione": "Pasta cotta fondente in farcia di Provola, Bietola in guazzetto di Seppie all’Inzimino",
+            "Prezzo": "€45,00"
+        },
+        {
+            "Nome": "Spaghetti 'Tirrena' grani antichi",
+            "Descrizione": "Spaghetti quadrati al burro di Alghe, Ricci, Bottarga e Bergamotto",
+            "Prezzo": "€50,00"
+        },
+        {
+            "Nome": "Ravioli",
+            "Descrizione": "Pasta in farcia di Coniglio alla cacciatora, Cavolo nero, agretto di Rosmarino e ragù di Funghi",
+            "Prezzo": "€50,00"
+        },
+        {
+            "Nome": "Parthenope",
+            "Descrizione": "Intensità di Ragù napoletano, Ricotta di Bufala e Basilico",
+            "Prezzo": "€45,00"
+        }
+      ]
+    },
+    {
+      "Sottotitolo": "Secondi",
+      "Piatti": [
+        {
+            "Nome": "Espressione marina",
+            "Descrizione": "Triglia in crosta di Pane allo Zafferano 2015",
+            "Prezzo": "€50,00"
+         },
+        {
+            "Nome": "Cervo",
+            "Descrizione": "Cervo gratinato Whisky, Noci Macadamia, consistenze di Rapa rossa",
+            "Prezzo": "€55,00"
+        },
+        {
+        "Nome": "Rombo",
+        "Descrizione": "Rombo Arrosto Mugnaia, Aji amarillo, Broccoli & Broccoli",
+        "Prezzo": "€55,00"
+        },
+        {
+        "Nome": "Polletto",
+        "Descrizione": "Polletto ai carboni, Mela annurca, Topinambur e gel di Teriyaki",
+        "Prezzo": "€50,00"
+        }
+      ]
+    },
+    {
+      "Sottotitolo": "Dolci",
+      "Piatti": [
+        {
+        "Nome": "Tiramisù",
+        "Descrizione": "Base di savoiardi inzuppati nel caffè, crema al mascarpone e cacao amaro",
+        "Prezzo": "€8,00"
+        },
+        {
+        "Nome": "Millefoglie",
+        "Descrizione": "Pastasfoglia ripiena di crema alla vaniglia",
+        "Prezzo": "€8,00"
+        },
+        {
+        "Nome": "Pandispagna al limone",
+        "Descrizione": "Pandispagna al limone servito con crema al limoncello",
+        "Prezzo": "€10,00"
+        },
+        {
+        "Nome": "Profiterol",
+        "Descrizione": "Bignè soffici, crema chantilly e cioccolato",
+        "Prezzo": "€10,00"
+        },
+        {
+        "Nome": "Panna cotta al lampone",
+        "Descrizione": "Panna cotta con coulis di lamponi",
+        "Prezzo": "€8,00"
+        },
+        {
+        "Nome": "Crumble",
+        "Descrizione": "Crumble al cioccolato con pesche sciroppate al caramello",
+        "Prezzo": "€10,00"
+        },
+        {
+        "Nome": "Cantucci",
+        "Descrizione": "Cantucci e vin santo",
+        "Prezzo": "€7,00"
+        },
+        {
+        "Nome": "Pavlova",
+        "Descrizione": "Meringa ripiena di panna e frutti di bosco",
+        "Prezzo": "€12,00"
+        }
+      ]
+    }
+  ]
+}

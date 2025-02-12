@@ -1,0 +1,59 @@
+{
+  "Sezioni": [
+    {
+      "Sottotitolo": "Pizze Classiche",
+      "Piatti": [
+        {
+          "Nome": "Margherita",
+          "Descrizione": "Pomodoro San Marzano DOP, mozzarella fior di latte, basilico fresco",
+          "Prezzo": "€8,00"
+        },
+        {
+          "Nome": "Marinara",
+          "Descrizione": "Pomodorini, origano, aglio.",
+          "Prezzo": "€7,50"
+        },
+        {
+          "Nome": "Quattro stagioni",
+          "Descrizione": "Pomodoro, mozzarella, funghi, prosciutto cotto, olive nere e carciofini",
+          "Prezzo": "€9,50"
+        }
+      ]
+    },
+    {
+      "Sottotitolo": "Pizze Gourmet",
+      "Piatti": [
+        {
+          "Nome": "Diavola",
+          "Descrizione": "Pomodoro, mozzarella, salame piccante, peperoncino",
+          "Prezzo": "€9,00"
+        },
+        {
+          "Nome": "Gorgonzola e noci",
+          "Descrizione": "Crema di gorgonzola DOP, noci, miele",
+          "Prezzo": "€10,00"
+        },
+        {
+          "Nome": "Mare e monti",
+          "Descrizione": "Pomodoro, mozzarella, gamberi, salsiccia, rucola",
+          "Prezzo": "€11,00"
+        }
+      ]
+    },
+    {
+      "Sottotitolo": "Pizze Bianche",
+      "Piatti": [
+        {
+          "Nome": "Quattro formaggi",
+          "Descrizione": "Mozzarella, gorgonzola, fontina, parmigiano",
+          "Prezzo": "€9,50"
+        },
+        {
+          "Nome": "Porchetta e patate",
+          "Descrizione": "Porchetta, patate rosmarino, olio extra vergine d'oliva",
+          "Prezzo": "€8,00"
+        }
+      ]
+    }
+  ]
+}

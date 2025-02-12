@@ -1,0 +1,9 @@
+# Forza la codifica UTF-8 per i file di testo principali
+*.js   text eol=lf
+*.jsx  text eol=lf
+*.tsx  text eol=lf
+*.json text eol=lf
+*.html text eol=lf
+*.css  text eol=lf
+*.md   text eol=lf
+*.py   text eol=lf
